@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Little Monks Safaris | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="admin.css">
+    
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ==========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <h2>Little Monks</h2>
+
+        <ul>
+
+            <li class="active">Dashboard</li>
+
+            <li>Bookings</li>
+
+            <li>Customers</li>
+
+            <li>Payments</li>
+
+            <li>Settings</li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ==========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+      <header>
+
+    <div>
+
+        <h1>Admin Dashboard</h1>
+
+        <p>Manage bookings and customers</p>
+
+    </div>
+
+    <button id="logoutBtn" class="logout-btn">
+
+        Logout
+
+    </button>
+
+</header>
+
+        <!-- ==========================
+             STATISTICS
+        ========================== -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <h3 id="totalBookings">0</h3>
+
+                <p>Total Bookings</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3 id="pendingBookings">0</h3>
+
+                <p>Pending</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3 id="confirmedBookings">0</h3>
+
+                <p>Confirmed</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3 id="completedBookings">0</h3>
+
+                <p>Completed</p>
+
+            </div>
+            <!-- ANALYTICS -->
+
+<section class="analytics">
+
+
+    <div class="analytics-card">
+
+        <h2>Popular Destinations</h2>
+
+        <canvas id="destinationChart"></canvas>
+
+    </div>
+
+
+
+    <div class="analytics-card">
+
+        <h2>Popular Services</h2>
+
+        <canvas id="serviceChart"></canvas>
+
+    </div>
+
+
+
+</section>
+
+        </section>
+
+        <!-- ==========================
+             BOOKINGS TABLE
+        ========================== -->
+
+        <section class="bookings">
+
+<h2>Recent Bookings</h2>
+
+
+<div class="filters">
+
+
+    <input 
+    type="text"
+    id="searchBooking"
+    placeholder="Search name, email or phone...">
+
+
+    <select id="statusFilter">
+
+        <option value="all">
+            All Status
+        </option>
+
+        <option value="Pending">
+            Pending
+        </option>
+
+        <option value="Completed">
+            Completed
+        </option>
+
+    </select>
+
+
+    <select id="destinationFilter">
+
+        <option value="all">
+            All Destinations
+        </option>
+
+        <option>
+            Maasai Mara
+        </option>
+
+        <option>
+            Amboseli
+        </option>
+
+        <option>
+            Tsavo East
+        </option>
+
+        <option>
+            Diani
+        </option>
+
+        <option>
+            Naivasha
+        </option>
+
+
+    </select>
+
+
+</div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Destination</th>
+
+                        <th>Service</th>
+
+                        <th>Travel Date</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="bookingsTable">
+
+                    <!-- JavaScript will insert bookings here -->
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+        <!-- ==========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        emailjs.init({ publicKey: "4n8YIb9MYTk-f95RA" });
+    </script>
+    <script type="module" src="admin.js"></script>
+
+
+    <!-- ==========================
+         BOOKING DETAILS MODAL
+    ========================== -->
+
+    <div id="bookingModal" class="modal">
+
+        <div class="modal-content">
+
+
+            <span id="closeModal">&times;</span>
+
+
+            <h2>
+                Booking Details
+            </h2>
+
+
+            <div id="bookingDetails">
+            
+</div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
