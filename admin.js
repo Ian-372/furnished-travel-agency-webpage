@@ -11,7 +11,10 @@ import {
 
 import {
     onAuthStateChanged,
-    signOut
+    signOut,
+    updatePassword,
+    EmailAuthProvider,
+    reauthenticateWithCredential
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
@@ -19,13 +22,31 @@ import {
 // AUTH CHECK
 // ==========================
 
-onAuthStateChanged(auth, (user)=>{
+let currentAdmin = null;
 
-    if(!user){
 
-        window.location.href="admin-login.html";
+onAuthStateChanged(auth, (user) => {
+
+
+    if (!user) {
+
+        window.location.href = "admin-login.html";
+
+        return;
 
     }
+
+
+    currentAdmin = user;
+
+
+    if (currentAdminEmail) {
+
+        currentAdminEmail.textContent =
+            user.email;
+
+    }
+
 
 });
 
@@ -44,6 +65,14 @@ const pendingBookings = document.getElementById("pendingBookings");
 const completedBookings = document.getElementById("completedBookings");
 
 const logoutBtn = document.getElementById("logoutBtn");
+const currentAdminEmail =
+    document.getElementById("currentAdminEmail");
+
+
+const changePasswordBtn =
+    document.getElementById("changePasswordBtn");
+const customersTable = document.getElementById("customersTable");
+const paymentsTable = document.getElementById("paymentsTable");
 
 
 
@@ -64,10 +93,14 @@ let selectedBookingId = null;
 // LOAD BOOKINGS
 // ==========================
 
-onSnapshot(collection(db,"bookings"),(snapshot)=>{
+onSnapshot(collection(db, "bookings"), (snapshot) => {
 
 
-    bookingsTable.innerHTML="";
+    bookingsTable.innerHTML = "";
+    bookingsTable.innerHTML = "";
+
+    if (customersTable) customersTable.innerHTML = "";
+    if (paymentsTable) paymentsTable.innerHTML = "";
 
 
     let total = 0;
@@ -80,7 +113,7 @@ onSnapshot(collection(db,"bookings"),(snapshot)=>{
 
 
 
-    snapshot.forEach((document)=>{
+    snapshot.forEach((document) => {
 
 
         total++;
@@ -90,29 +123,29 @@ onSnapshot(collection(db,"bookings"),(snapshot)=>{
         // Analytics counting
 
 
-if(destinationData[booking.destination]){
+        if (destinationData[booking.destination]) {
 
-    destinationData[booking.destination]++;
+            destinationData[booking.destination]++;
 
-}
-else{
+        }
+        else {
 
-    destinationData[booking.destination]=1;
+            destinationData[booking.destination] = 1;
 
-}
+        }
 
 
 
-if(serviceData[booking.service]){
+        if (serviceData[booking.service]) {
 
-    serviceData[booking.service]++;
+            serviceData[booking.service]++;
 
-}
-else{
+        }
+        else {
 
-    serviceData[booking.service]=1;
+            serviceData[booking.service] = 1;
 
-}
+        }
 
 
 
@@ -123,7 +156,7 @@ else{
 
 
 
-        if(booking.status === "Pending"){
+        if (booking.status === "Pending") {
 
             pending++;
 
@@ -131,17 +164,17 @@ else{
 
 
 
-        if(booking.status === "Completed"){
+        if (booking.status === "Completed") {
 
             completed++;
 
         }
 
-        if(booking.status === "Quoted"){
+        if (booking.status === "Quoted") {
 
-    quoted++;
+            quoted++;
 
-}
+        }
 
 
 
@@ -219,6 +252,31 @@ else{
 
 
         `;
+        if (customersTable) {
+
+            customersTable.innerHTML += `
+        <tr>
+            <td>${booking.fullName}</td>
+            <td>${booking.email}</td>
+            <td>${booking.phone}</td>
+            <td>${booking.destination}</td>
+        </tr>
+    `;
+
+        }
+
+        if (paymentsTable) {
+
+            paymentsTable.innerHTML += `
+        <tr>
+            <td>${booking.fullName}</td>
+            <td>KES ${booking.quotation?.amount || 0}</td>
+            <td>${booking.payment?.status || "Unpaid"}</td>
+            <td>${booking.payment?.method || "-"}</td>
+        </tr>
+    `;
+
+        }
 
 
     });
@@ -243,17 +301,17 @@ else{
 // CONFIRM BOOKING
 // ==========================
 
-window.confirmBooking = async function(id){
+window.confirmBooking = async function (id) {
 
 
-    try{
+    try {
 
 
         await updateDoc(
-            doc(db,"bookings",id),
+            doc(db, "bookings", id),
             {
 
-                status:"Completed"
+                status: "Completed"
 
             }
         );
@@ -263,7 +321,7 @@ window.confirmBooking = async function(id){
 
 
     }
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
@@ -280,17 +338,17 @@ window.confirmBooking = async function(id){
 // DELETE BOOKING
 // ==========================
 
-window.deleteBooking = async function(id){
+window.deleteBooking = async function (id) {
 
 
-    if(confirm("Delete this booking?")){
+    if (confirm("Delete this booking?")) {
 
 
-        try{
+        try {
 
 
             await deleteDoc(
-                doc(db,"bookings",id)
+                doc(db, "bookings", id)
             );
 
 
@@ -298,7 +356,7 @@ window.deleteBooking = async function(id){
 
 
         }
-        catch(error){
+        catch (error) {
 
             console.error(error);
 
@@ -318,8 +376,8 @@ window.deleteBooking = async function(id){
 // VIEW BOOKING DETAILS
 // ==========================
 
-window.viewBooking = function(id){
-       selectedBookingId = id;
+window.viewBooking = function (id) {
+    selectedBookingId = id;
     const booking = allBookings[id];
     document.getElementById("bookingDetails").innerHTML = `
 
@@ -394,7 +452,7 @@ Send Quote
 
 
 
-    document.getElementById("bookingModal").style.display="flex";
+    document.getElementById("bookingModal").style.display = "flex";
 
 
 };
@@ -410,10 +468,10 @@ Send Quote
 const closeModal = document.getElementById("closeModal");
 
 
-closeModal.onclick = function(){
+closeModal.onclick = function () {
 
 
-    document.getElementById("bookingModal").style.display="none";
+    document.getElementById("bookingModal").style.display = "none";
 
 
 };
@@ -422,16 +480,16 @@ closeModal.onclick = function(){
 
 
 
-window.onclick = function(event){
+window.onclick = function (event) {
 
 
     const modal = document.getElementById("bookingModal");
 
 
-    if(event.target === modal){
+    if (event.target === modal) {
 
 
-        modal.style.display="none";
+        modal.style.display = "none";
 
 
     }
@@ -447,19 +505,19 @@ window.onclick = function(event){
 // LOGOUT
 // ==========================
 
-if(logoutBtn){
+if (logoutBtn) {
 
 
-logoutBtn.addEventListener("click",async()=>{
+    logoutBtn.addEventListener("click", async () => {
 
 
-    await signOut(auth);
+        await signOut(auth);
 
 
-    window.location.href="admin-login.html";
+        window.location.href = "admin-login.html";
 
 
-});
+    });
 
 
 }
@@ -468,123 +526,123 @@ let serviceChart;
 
 
 
-function loadCharts(){
+function loadCharts() {
 
 
-const destinationCtx =
-document.getElementById("destinationChart");
+    const destinationCtx =
+        document.getElementById("destinationChart");
 
-const serviceCtx =
-document.getElementById("serviceChart");
+    const serviceCtx =
+        document.getElementById("serviceChart");
 
 
 
-if(destinationChart){
+    if (destinationChart) {
 
-    destinationChart.destroy();
+        destinationChart.destroy();
 
-}
+    }
 
 
-if(serviceChart){
+    if (serviceChart) {
 
-    serviceChart.destroy();
+        serviceChart.destroy();
 
-}
+    }
 
 
 
 
 
-destinationChart = new Chart(
-destinationCtx,
-{
+    destinationChart = new Chart(
+        destinationCtx,
+        {
 
-type:"doughnut",
+            type: "doughnut",
 
-data:{
+            data: {
 
 
-labels:Object.keys(destinationData),
+                labels: Object.keys(destinationData),
 
 
-datasets:[{
+                datasets: [{
 
-label:"Bookings",
+                    label: "Bookings",
 
-data:Object.values(destinationData)
+                    data: Object.values(destinationData)
 
-}]
+                }]
 
 
-},
+            },
 
 
-options:{
+            options: {
 
-responsive:true
+                responsive: true
 
-}
+            }
 
 
-});
+        });
 
 
 
 
 
 
-serviceChart = new Chart(
-serviceCtx,
-{
+    serviceChart = new Chart(
+        serviceCtx,
+        {
 
 
-type:"bar",
+            type: "bar",
 
 
-data:{
+            data: {
 
 
-labels:Object.keys(serviceData),
+                labels: Object.keys(serviceData),
 
 
-datasets:[{
+                datasets: [{
 
-label:"Requests",
+                    label: "Requests",
 
-data:Object.values(serviceData)
+                    data: Object.values(serviceData)
 
-}]
+                }]
 
 
-},
+            },
 
 
-options:{
+            options: {
 
 
-responsive:true,
+                responsive: true,
 
 
-scales:{
+                scales: {
 
 
-y:{
+                    y: {
 
 
-beginAtZero:true
+                        beginAtZero: true
 
 
-}
+                    }
 
 
-}
+                }
 
 
-}
+            }
 
 
-});
+        });
 
 
 }
@@ -592,9 +650,9 @@ beginAtZero:true
 // SEND QUOTATION + PAYMENT LINK
 // ==========================
 
-document.getElementById("bookingDetails").addEventListener("click", async(event)=>{
+document.getElementById("bookingDetails").addEventListener("click", async (event) => {
 
-    if(event.target.id !== "sendQuoteBtn"){
+    if (event.target.id !== "sendQuoteBtn") {
 
         return;
 
@@ -602,10 +660,10 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
 
 
     const amount =
-    document.getElementById("quoteAmount").value;
+        document.getElementById("quoteAmount").value;
 
 
-    if(!amount){
+    if (!amount) {
 
         alert("Enter quotation amount");
 
@@ -614,13 +672,13 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
     }
 
 
-    try{
+    try {
 
 
         const booking = allBookings[selectedBookingId];
 
 
-        if(!booking){
+        if (!booking) {
 
             throw new Error("Select a booking before sending a quotation");
 
@@ -637,22 +695,22 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
             "/.netlify/functions/create-payment",
             {
 
-                method:"POST",
+                method: "POST",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    amount:Number(amount),
+                    amount: Number(amount),
 
-                    email:booking.email,
+                    email: booking.email,
 
-                    name:booking.fullName,
+                    name: booking.fullName,
 
-                    bookingId:selectedBookingId
+                    bookingId: selectedBookingId
 
                 })
 
@@ -665,12 +723,12 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
         let paymentData = {};
 
 
-        try{
+        try {
 
             paymentData = paymentBody ? JSON.parse(paymentBody) : {};
 
         }
-        catch{
+        catch {
 
             throw new Error("The payment service returned an invalid response");
 
@@ -685,7 +743,7 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
 
 
 
-        if(!paymentResponse.ok || !paymentData.url){
+        if (!paymentResponse.ok || !paymentData.url) {
 
             throw new Error(
                 paymentData.error || paymentData.detail || "Payment link was not created"
@@ -699,39 +757,39 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
 
 
         await updateDoc(
-            doc(db,"bookings",selectedBookingId),
+            doc(db, "bookings", selectedBookingId),
             {
 
 
-                quotation:{
+                quotation: {
 
 
-                    amount:Number(amount),
+                    amount: Number(amount),
 
-                    currency:"KES",
+                    currency: "KES",
 
-                    sent:true
-
-
-                },
-
-
-                payment:{
-
-
-                    status:"Pending",
-
-                    method:"IntaSend",
-
-                    transactionId:"",
-
-                    paymentUrl:paymentData.url
+                    sent: true
 
 
                 },
 
 
-                status:"Quoted"
+                payment: {
+
+
+                    status: "Pending",
+
+                    method: "IntaSend",
+
+                    transactionId: "",
+
+                    paymentUrl: paymentData.url
+
+
+                },
+
+
+                status: "Quoted"
 
 
             }
@@ -752,10 +810,10 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
                 ...booking,
 
 
-                quotationAmount:amount,
+                quotationAmount: amount,
 
 
-                paymentLink:paymentData.url
+                paymentLink: paymentData.url
 
 
             }
@@ -769,32 +827,218 @@ document.getElementById("bookingDetails").addEventListener("click", async(event)
         );
 
 
-        document.getElementById("bookingModal").style.display="none";
+        document.getElementById("bookingModal").style.display = "none";
 
 
     }
 
 
-    catch(error){
+    catch (error) {
 
 
         console.error("FULL ERROR:");
 
 
         alert(
-            JSON.stringify(error,null,2)
+            JSON.stringify(error, null, 2)
         );
 
 
     }
 
 
-    finally{
+    finally {
 
         event.target.disabled = false;
         event.target.textContent = "Send Quote";
 
     }
+
+
+});
+// ==========================
+// SIDEBAR NAVIGATION
+// ==========================
+
+const navItems = document.querySelectorAll(".nav-item");
+
+const sections = {
+    dashboard: document.getElementById("dashboardSection"),
+    bookings: document.getElementById("bookingsSection"),
+    customers: document.getElementById("customersSection"),
+    payments: document.getElementById("paymentsSection"),
+    settings: document.getElementById("settingsSection")
+};
+
+navItems.forEach(item => {
+
+    item.addEventListener("click", () => {
+
+        // Active menu
+        navItems.forEach(nav => nav.classList.remove("active"));
+        item.classList.add("active");
+
+        // Hide all sections
+        Object.values(sections).forEach(section => {
+            section.style.display = "none";
+        });
+
+        // Show selected section
+        sections[item.dataset.section].style.display = "block";
+
+    });
+
+});
+
+// ==========================
+// CHANGE ADMIN PASSWORD
+// ==========================
+
+// ==========================
+// CHANGE PASSWORD
+// ==========================
+
+if (changePasswordBtn) {
+
+
+    changePasswordBtn.addEventListener("click", async () => {
+
+
+        const currentPassword =
+            document.getElementById("currentPassword").value;
+
+
+        const newPassword =
+            document.getElementById("newPassword").value;
+
+
+
+        if (!currentPassword || !newPassword) {
+
+            alert("Fill in both password fields");
+
+            return;
+
+        }
+
+
+
+        if (newPassword.length < 6) {
+
+            alert("New password must be at least 6 characters");
+
+            return;
+
+        }
+
+
+
+        try {
+
+
+            const credential =
+                EmailAuthProvider.credential(
+                    currentAdmin.email,
+                    currentPassword
+                );
+
+
+
+            await reauthenticateWithCredential(
+                currentAdmin,
+                credential
+            );
+
+
+
+            await updatePassword(
+                currentAdmin,
+                newPassword
+            );
+
+
+
+            alert("Password changed successfully");
+
+
+
+            document.getElementById("currentPassword").value = "";
+            document.getElementById("newPassword").value = "";
+
+
+        }
+
+
+        catch (error) {
+
+
+            console.error(error);
+
+
+            if (error.code === "auth/wrong-password") {
+
+                alert("Current password is incorrect");
+
+            }
+
+
+            else {
+
+                alert(error.message);
+
+            }
+
+
+        }
+
+
+
+    });
+
+
+}
+// ==========================
+// PASSWORD VISIBILITY TOGGLE
+// ==========================
+
+
+const togglePasswords =
+document.querySelectorAll(".toggle-password");
+
+
+togglePasswords.forEach(toggle => {
+
+
+    toggle.addEventListener("click",()=>{
+
+
+        const targetId =
+        toggle.dataset.target;
+
+
+        const input =
+        document.getElementById(targetId);
+
+
+
+        if(input.type === "password"){
+
+            input.type = "text";
+
+            toggle.textContent = "🙈";
+
+        }
+
+        else{
+
+            input.type = "password";
+
+            toggle.textContent = "👁️";
+
+        }
+
+
+    });
 
 
 });

@@ -9,14 +9,15 @@
     <title>Little Monks Safaris | Admin Dashboard</title>
 
     <link rel="stylesheet" href="admin.css">
-    
+
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -30,19 +31,34 @@
 
     <aside class="sidebar">
 
-        <h2>Little Monks</h2>
+        <div class="logo">
+
+            <h2>Little Monks</h2>
+            <p>Admin Panel</p>
+
+        </div>
 
         <ul>
 
-            <li class="active">Dashboard</li>
+            <li class="nav-item active" data-section="dashboard">
+                🏠 Dashboard
+            </li>
 
-            <li>Bookings</li>
+            <li class="nav-item" data-section="bookings">
+                📅 Bookings
+            </li>
 
-            <li>Customers</li>
+            <li class="nav-item" data-section="customers">
+                👥 Customers
+            </li>
 
-            <li>Payments</li>
+            <li class="nav-item" data-section="payments">
+                💳 Payments
+            </li>
 
-            <li>Settings</li>
+            <li class="nav-item" data-section="settings">
+                ⚙️ Settings
+            </li>
 
         </ul>
 
@@ -54,156 +70,112 @@
 
     <main class="main-content">
 
-      <header>
+        <header>
 
-    <div>
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage bookings and customers</p>
+            </div>
 
-        <h1>Admin Dashboard</h1>
+            <button id="logoutBtn" class="logout-btn">
+                Logout
+            </button>
 
-        <p>Manage bookings and customers</p>
-
-    </div>
-
-    <button id="logoutBtn" class="logout-btn">
-
-        Logout
-
-    </button>
-
-</header>
+        </header>
 
         <!-- ==========================
-             STATISTICS
-        ========================== -->
+         DASHBOARD SECTION
+    ========================== -->
 
-        <section class="stats">
+        <section id="dashboardSection" class="content-section">
 
-            <div class="stat-card">
+            <!-- Statistics -->
 
-                <h3 id="totalBookings">0</h3>
+            <section class="stats">
 
-                <p>Total Bookings</p>
+                <div class="stat-card">
+                    <h3 id="totalBookings">0</h3>
+                    <p>Total Bookings</p>
+                </div>
 
-            </div>
+                <div class="stat-card">
+                    <h3 id="pendingBookings">0</h3>
+                    <p>Pending</p>
+                </div>
 
-            <div class="stat-card">
+                <div class="stat-card">
+                    <h3 id="confirmedBookings">0</h3>
+                    <p>Confirmed</p>
+                </div>
 
-                <h3 id="pendingBookings">0</h3>
+                <div class="stat-card">
+                    <h3 id="completedBookings">0</h3>
+                    <p>Completed</p>
+                </div>
 
-                <p>Pending</p>
+            </section>
 
-            </div>
+            <!-- Analytics -->
 
-            <div class="stat-card">
+            <section class="analytics">
 
-                <h3 id="confirmedBookings">0</h3>
+                <div class="analytics-card">
 
-                <p>Confirmed</p>
+                    <h2>Popular Destinations</h2>
 
-            </div>
+                    <canvas id="destinationChart"></canvas>
 
-            <div class="stat-card">
+                </div>
 
-                <h3 id="completedBookings">0</h3>
+                <div class="analytics-card">
 
-                <p>Completed</p>
+                    <h2>Popular Services</h2>
 
-            </div>
-            <!-- ANALYTICS -->
+                    <canvas id="serviceChart"></canvas>
 
-<section class="analytics">
+                </div>
 
-
-    <div class="analytics-card">
-
-        <h2>Popular Destinations</h2>
-
-        <canvas id="destinationChart"></canvas>
-
-    </div>
-
-
-
-    <div class="analytics-card">
-
-        <h2>Popular Services</h2>
-
-        <canvas id="serviceChart"></canvas>
-
-    </div>
-
-
-
-</section>
+            </section>
 
         </section>
 
         <!-- ==========================
-             BOOKINGS TABLE
-        ========================== -->
+         BOOKINGS SECTION
+    ========================== -->
 
-        <section class="bookings">
+        <section id="bookingsSection" class="content-section" style="display:none;">
 
-<h2>Recent Bookings</h2>
+            <h2>Recent Bookings</h2>
 
+            <div class="filters">
 
-<div class="filters">
+                <input type="text" id="searchBooking" placeholder="Search name, email or phone...">
 
+                <select id="statusFilter">
 
-    <input 
-    type="text"
-    id="searchBooking"
-    placeholder="Search name, email or phone...">
+                    <option value="all">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
 
+                </select>
 
-    <select id="statusFilter">
+                <select id="destinationFilter">
 
-        <option value="all">
-            All Status
-        </option>
+                    <option value="all">All Destinations</option>
 
-        <option value="Pending">
-            Pending
-        </option>
+                    <option>Maasai Mara</option>
 
-        <option value="Completed">
-            Completed
-        </option>
+                    <option>Amboseli</option>
 
-    </select>
+                    <option>Tsavo East</option>
 
+                    <option>Diani</option>
 
-    <select id="destinationFilter">
+                    <option>Naivasha</option>
 
-        <option value="all">
-            All Destinations
-        </option>
+                </select>
 
-        <option>
-            Maasai Mara
-        </option>
-
-        <option>
-            Amboseli
-        </option>
-
-        <option>
-            Tsavo East
-        </option>
-
-        <option>
-            Diani
-        </option>
-
-        <option>
-            Naivasha
-        </option>
-
-
-    </select>
-
-
-</div>
+            </div>
 
             <table>
 
@@ -227,19 +199,137 @@
 
                 </thead>
 
-                <tbody id="bookingsTable">
-
-                    <!-- JavaScript will insert bookings here -->
-
-                </tbody>
+                <tbody id="bookingsTable"></tbody>
 
             </table>
 
         </section>
 
-    </main>
+        <!-- ==========================
+         CUSTOMERS SECTION
+    ========================== -->
+
+        <section id="customersSection" class="content-section" style="display:none;">
+
+            <h2>Customers</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Destination</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customersTable">
+                </tbody>
+            </table>
+
+        </section>
 
         <!-- ==========================
+         PAYMENTS SECTION
+    ========================== -->
+
+        <section id="paymentsSection" class="content-section" style="display:none;">
+
+            <h2>Payments</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Method</th>
+                    </tr>
+                </thead>
+
+                <tbody id="paymentsTable">
+                </tbody>
+            </table>
+
+        </section>
+
+        <!-- ==========================
+         SETTINGS SECTION
+    ========================== -->
+
+        <section id="settingsSection" class="content-section" style="display:none;">
+
+            <h2>Admin Settings</h2>
+
+
+            <div class="settings-grid">
+
+
+                <!-- CURRENT ADMIN -->
+
+                <div class="settings-card">
+
+                    <h3>Account Information</h3>
+
+                    <p>
+                        Logged in as:
+                    </p>
+
+                    <strong id="currentAdminEmail">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+
+                <!-- CHANGE PASSWORD -->
+
+                <div class="settings-card">
+
+                    <h3>Change Password</h3>
+
+
+                    <div class="password-field">
+
+                        <input type="password" id="currentPassword" placeholder="Current password">
+
+
+                        <span class="toggle-password" data-target="currentPassword">
+                            👁️
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="password-field">
+
+                        <input type="password" id="newPassword" placeholder="New password">
+
+
+                        <span class="toggle-password" data-target="newPassword">
+                            👁️
+                        </span>
+
+                    </div>
+
+
+
+                    <button id="changePasswordBtn" class="confirmBtn">
+
+                        Update Password
+
+                    </button>
+
+
+                </div>
+
+
+        </section>
+
+    </main>
+    <!-- ==========================
          JAVASCRIPT
     ========================== -->
 
@@ -268,13 +358,13 @@
 
 
             <div id="bookingDetails">
-            
-</div>
 
             </div>
 
-
         </div>
+
+
+    </div>
 
     </div>
 
