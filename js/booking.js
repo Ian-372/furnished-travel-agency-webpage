@@ -1,4 +1,4 @@
-import { db } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
 
 import {
     collection,
@@ -9,10 +9,71 @@ import {
 console.log("Booking module loaded");
 
 const bookingForm = document.getElementById("bookingForm");
+// ==========================
+// INTERNATIONAL PHONE INPUT
+// ==========================
 
+const phoneInput = document.querySelector("#phone");
+
+
+const iti = window.intlTelInput(phoneInput, {
+
+    initialCountry: "ke",
+
+    preferredCountries: [
+        "ke",
+        "ug",
+        "tz"
+    ],
+
+    separateDialCode: true,
+
+    utilsScript:
+    "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+
+});
+// ==========================
+// SHOW/HIDE VEHICLE FIELDS
+// ==========================
+
+const serviceSelect = document.getElementById("service");
+const vehicleFields = document.getElementById("vehicleFields");
+
+if (serviceSelect && vehicleFields) {
+    serviceSelect.addEventListener("change", () => {
+        if (serviceSelect.value === "Vehicle Reservation") {
+            vehicleFields.style.display = "block";
+        } else {
+            vehicleFields.style.display = "none";
+        }
+    });
+}
 bookingForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
+    // ==========================
+// PHONE VALIDATION
+// ==========================
+
+if (!iti.isValidNumber()) {
+
+    alert("Please enter a valid phone number.");
+
+    return;
+
+}
+    const user = auth.currentUser;
+    console.log("Current user:", user);
+
+    if (!user) {
+
+        alert("Please login to your customer account before making a booking.");
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
 
     const destination =
         document.getElementById("destination").value === "other"
@@ -21,14 +82,17 @@ bookingForm.addEventListener("submit", async (e) => {
 
 
     const booking = {
+        userId: user.uid,
 
         fullName: document.getElementById("fullName").value,
 
         email: document.getElementById("email").value,
 
-        phone: document.getElementById("phone").value,
+        phone: iti.getNumber(),
 
         service: document.getElementById("service").value,
+        vehicleReservation:
+            document.getElementById("vehicleReservation").value,
 
         destination: destination,
 
@@ -47,6 +111,19 @@ bookingForm.addEventListener("submit", async (e) => {
         promoCode: document.getElementById("promoCode").value,
 
         specialRequests: document.getElementById("specialRequests").value,
+        // Vehicle Reservation Details
+
+        vehicleType:
+            document.getElementById("vehicleType")?.value || "",
+
+        pickupTime:
+            document.getElementById("pickupTime")?.value || "",
+
+        driverRequired:
+            document.getElementById("driverRequired")?.value || "",
+
+        hireDays:
+            document.getElementById("hireDays")?.value || "",
 
 
         // Booking awaiting quotation
@@ -131,16 +208,21 @@ bookingForm.addEventListener("submit", async (e) => {
         // SUCCESS MESSAGE
         // ==========================
 
-
         alert(
             "✅ Booking request received! Little Monks Safaris will review your request and send you a quotation shortly."
         );
 
-
         bookingForm.reset();
 
+        if (vehicleFields) {
+            vehicleFields.style.display = "none";
+        }
 
-        document.getElementById("otherDestination").style.display = "none";
+        const otherDestination = document.getElementById("otherDestination");
+
+        if (otherDestination) {
+            otherDestination.style.display = "none";
+        }
 
 
     }

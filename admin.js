@@ -390,6 +390,9 @@ window.viewBooking = function (id) {
     <p><strong>Phone:</strong> ${booking.phone}</p>
 
     <p><strong>Service:</strong> ${booking.service}</p>
+    <p><strong>Vehicle Reserved:</strong>
+${booking.vehicleReservation || "None"}
+</p>
 
     <p><strong>Destination:</strong> ${booking.destination}</p>
 
@@ -647,10 +650,11 @@ function loadCharts() {
 
 }
 // ==========================
-// SEND QUOTATION + PAYMENT LINK
+// SEND QUOTATION
 // ==========================
 
 document.getElementById("bookingDetails").addEventListener("click", async (event) => {
+
 
     if (event.target.id !== "sendQuoteBtn") {
 
@@ -659,8 +663,10 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
     }
 
 
+
     const amount =
         document.getElementById("quoteAmount").value;
+
 
 
     if (!amount) {
@@ -672,92 +678,34 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
     }
 
 
+
     try {
 
 
         const booking = allBookings[selectedBookingId];
 
 
+
         if (!booking) {
 
-            throw new Error("Select a booking before sending a quotation");
+            throw new Error("Select a booking before sending quotation");
 
         }
+
 
 
         event.target.disabled = true;
+
         event.target.textContent = "Sending...";
 
 
-        // CREATE PAYMENT SESSION
 
-        const paymentResponse = await fetch(
-            "/.netlify/functions/create-payment",
-            {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-
-                body: JSON.stringify({
-
-                    amount: Number(amount),
-
-                    email: booking.email,
-
-                    name: booking.fullName,
-
-                    bookingId: selectedBookingId
-
-                })
-
-            }
-        );
-
-
-
-        const paymentBody = await paymentResponse.text();
-        let paymentData = {};
-
-
-        try {
-
-            paymentData = paymentBody ? JSON.parse(paymentBody) : {};
-
-        }
-        catch {
-
-            throw new Error("The payment service returned an invalid response");
-
-        }
-
-
-
-        console.log(
-            "Payment Link:",
-            paymentData
-        );
-
-
-
-        if (!paymentResponse.ok || !paymentData.url) {
-
-            throw new Error(
-                paymentData.error || paymentData.detail || "Payment link was not created"
-            );
-
-        }
-
-
-
-        // UPDATE FIRESTORE
-
+        // UPDATE FIRESTORE WITH QUOTATION ONLY
 
         await updateDoc(
+
             doc(db, "bookings", selectedBookingId),
+
             {
 
 
@@ -774,57 +722,28 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
                 },
 
 
-                payment: {
-
-
-                    status: "Pending",
-
-                    method: "IntaSend",
-
-                    transactionId: "",
-
-                    paymentUrl: paymentData.url
-
-
-                },
-
-
                 status: "Quoted"
 
 
             }
 
         );
-
-
-
-        // SEND EMAIL TO CUSTOMER
-
-
         await emailjs.send(
             "service_ekdc1xn",
             "template_rmzvqlc",
             {
-
-
                 ...booking,
-
-
-                quotationAmount: amount,
-
-
-                paymentLink: paymentData.url
-
-
+                quotationAmount: amount
             }
-
         );
+
 
 
 
         alert(
-            "Quotation sent with payment link"
+            "Quotation sent successfully"
         );
+
 
 
         document.getElementById("bookingModal").style.display = "none";
@@ -833,26 +752,32 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
     }
 
 
+
     catch (error) {
 
 
-        console.error("FULL ERROR:");
+        console.error(error);
 
 
         alert(
-            JSON.stringify(error, null, 2)
+            error.message
         );
 
 
     }
 
 
+
     finally {
 
+
         event.target.disabled = false;
+
         event.target.textContent = "Send Quote";
 
+
     }
+
 
 
 });
@@ -889,10 +814,6 @@ navItems.forEach(item => {
     });
 
 });
-
-// ==========================
-// CHANGE ADMIN PASSWORD
-// ==========================
 
 // ==========================
 // CHANGE PASSWORD
@@ -1003,25 +924,25 @@ if (changePasswordBtn) {
 
 
 const togglePasswords =
-document.querySelectorAll(".toggle-password");
+    document.querySelectorAll(".toggle-password");
 
 
 togglePasswords.forEach(toggle => {
 
 
-    toggle.addEventListener("click",()=>{
+    toggle.addEventListener("click", () => {
 
 
         const targetId =
-        toggle.dataset.target;
+            toggle.dataset.target;
 
 
         const input =
-        document.getElementById(targetId);
+            document.getElementById(targetId);
 
 
 
-        if(input.type === "password"){
+        if (input.type === "password") {
 
             input.type = "text";
 
@@ -1029,7 +950,7 @@ togglePasswords.forEach(toggle => {
 
         }
 
-        else{
+        else {
 
             input.type = "password";
 

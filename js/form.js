@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dynamicFields.innerHTML = "";
 
-        switch(service.value){
+        switch (service.value) {
 
             case "Safari Package":
 
@@ -115,6 +115,56 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                 `;
+                break;
+            case "Vehicle Reservation":
+
+                dynamicFields.innerHTML = `
+
+        <h3 style="margin:20px 0 10px;">
+            Vehicle Reservation Details
+        </h3>
+
+        <div class="input-group">
+
+            <select id="vehicleType">
+
+                <option value="">Select Vehicle Category</option>
+
+                <option>Safari Land Cruiser</option>
+
+                <option>Safari Vans</option>
+
+                <option>Executive Transport</option>
+
+            </select>
+
+            <input
+                type="time"
+                id="pickupTime">
+
+        </div>
+
+        <div class="input-group">
+
+            <select id="driverRequired">
+
+                <option value="">Service Option</option>
+
+                <option>Professional Chauffeur</option>
+
+                <option>Self Drive</option>
+
+            </select>
+
+            <input
+                type="number"
+                id="hireDays"
+                placeholder="Hire Duration (Days)">
+
+        </div>
+
+    `;
+
                 break;
 
             case "Custom Tour":

@@ -12,34 +12,20 @@
 
 window.addEventListener("load", () => {
 
+    const loader = document.querySelector(".page-loader");
 
-    const loader =
-        document.querySelector(".page-loader");
-
-
+    if (!loader) return;
 
     setTimeout(() => {
 
-
         loader.style.opacity = "0";
-
-
         loader.style.transition = "1s ease";
 
-
         setTimeout(() => {
-
-
             loader.style.display = "none";
-
-
         }, 1000);
 
-
-
     }, 2200);
-
-
 
 });
 

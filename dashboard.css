@@ -1,0 +1,545 @@
+/* ==========================================
+   LITTLE MONKS SAFARIS
+   CUSTOMER DASHBOARD
+========================================== */
+
+
+:root {
+
+    --black:#050807;
+
+    --dark-green:#062e1b;
+
+    --green:#0b5a34;
+
+    --gold:#c9a227;
+
+    --light-gold:#e4c766;
+
+    --cream:#f8f3e7;
+
+    --border:rgba(201,162,39,.35);
+
+}
+
+
+
+/* =========================
+GLOBAL RESET
+========================= */
+
+
+* {
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+
+
+body {
+
+
+    min-height:100vh;
+
+
+    background:
+
+
+    linear-gradient(
+
+        rgba(5,8,7,.9),
+
+        rgba(5,8,7,.9)
+
+    ),
+
+    url("https://images.unsplash.com/photo-1516426122078-c23e76319801");
+
+
+    background-size:cover;
+
+    background-position:center;
+
+
+    font-family:'Montserrat',sans-serif;
+
+
+    color:var(--cream);
+
+
+}
+
+
+
+/* =========================
+DASHBOARD CONTAINER
+========================= */
+
+
+.dashboard {
+
+
+    width:90%;
+
+
+    max-width:1200px;
+
+
+    margin:auto;
+
+
+    padding:50px 0;
+
+
+}
+
+
+
+/* =========================
+HEADER
+========================= */
+
+
+.dashboard-header {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    padding:30px;
+
+
+    margin-bottom:40px;
+
+
+    background:
+
+    rgba(255,255,255,.06);
+
+
+    backdrop-filter:blur(15px);
+
+
+    border:
+
+    1px solid var(--border);
+
+
+    border-radius:25px;
+
+
+}
+
+
+
+.dashboard-header h1 {
+
+
+    font-family:'Playfair Display',serif;
+
+
+    font-size:
+
+    clamp(1.8rem,4vw,3rem);
+
+
+}
+
+
+
+.dashboard-header span {
+
+
+    color:var(--gold);
+
+
+}
+
+
+
+/* LOGOUT BUTTON */
+
+
+.dashboard-header button {
+
+
+    padding:14px 30px;
+
+
+    border-radius:50px;
+
+
+    border:1px solid var(--gold);
+
+
+    background:transparent;
+
+
+    color:white;
+
+
+    cursor:pointer;
+
+
+    transition:.4s;
+
+
+}
+
+
+
+.dashboard-header button:hover {
+
+
+    background:var(--gold);
+
+
+    color:#000;
+
+
+}
+
+
+
+
+
+/* =========================
+CONTENT CARD
+========================= */
+
+
+.dashboard-content {
+
+
+    display:grid;
+
+
+    grid-template-columns:1fr;
+
+
+    gap:30px;
+
+
+}
+
+
+
+.card {
+
+
+    padding:40px;
+
+
+    background:
+
+
+    rgba(255,255,255,.06);
+
+
+    backdrop-filter:blur(15px);
+
+
+    border:
+
+
+    1px solid var(--border);
+
+
+    border-radius:25px;
+
+
+}
+
+
+
+.card h2 {
+
+
+    font-family:'Playfair Display',serif;
+
+
+    color:var(--gold);
+
+
+    font-size:2rem;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+/* =========================
+BOOKING CARDS
+========================= */
+
+
+.booking-card {
+
+
+    padding:30px;
+
+
+    margin-bottom:25px;
+
+
+    background:
+
+
+    rgba(0,0,0,.35);
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.1);
+
+
+    border-radius:20px;
+
+
+    transition:.5s;
+
+
+}
+
+
+
+.booking-card:hover {
+
+
+    transform:translateY(-8px);
+
+
+    border-color:var(--gold);
+
+
+}
+
+
+
+.booking-card h3 {
+
+
+    font-family:'Playfair Display',serif;
+
+
+    font-size:1.8rem;
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.booking-card p {
+
+
+    color:#ddd;
+
+
+    margin:12px 0;
+
+
+    line-height:1.6;
+
+
+}
+
+
+
+.booking-card strong {
+
+
+    color:var(--gold);
+
+
+}
+
+
+
+/* PAY / ACTION BUTTONS */
+
+
+.booking-card button {
+
+
+    margin-top:20px;
+
+
+    padding:14px 30px;
+
+
+    border-radius:50px;
+
+
+    border:none;
+
+
+    background:var(--gold);
+
+
+    color:#000;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:.4s;
+
+
+}
+
+
+
+.booking-card button:hover {
+
+
+    background:var(--light-gold);
+
+
+    transform:translateY(-5px);
+
+
+}
+
+
+
+/* =========================
+EMPTY STATE
+========================= */
+
+
+#bookingsContainer {
+
+
+    color:#ccc;
+
+
+    line-height:2;
+
+
+}
+
+
+
+/* =========================
+RESPONSIVE
+========================= */
+
+
+@media(max-width:700px){
+
+
+    .dashboard {
+
+
+        width:92%;
+
+        padding:25px 0;
+
+    }
+
+
+
+    .dashboard-header {
+
+
+        flex-direction:column;
+
+
+        gap:25px;
+
+
+        text-align:center;
+
+
+        padding:25px;
+
+
+    }
+
+
+
+    .dashboard-header button {
+
+
+        width:100%;
+
+
+    }
+
+
+
+    .card {
+
+
+        padding:25px 20px;
+
+
+    }
+
+
+
+    .booking-card {
+
+
+        padding:22px;
+
+
+    }
+
+
+
+    .booking-card h3 {
+
+
+        font-size:1.5rem;
+
+
+    }
+
+
+}
+
+
+
+@media(max-width:400px){
+
+
+    .dashboard-header h1 {
+
+
+        font-size:1.5rem;
+
+
+    }
+
+
+
+    .card h2 {
+
+
+        font-size:1.6rem;
+
+
+    }
+
+
+}
