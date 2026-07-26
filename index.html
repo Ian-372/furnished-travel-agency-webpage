@@ -1791,12 +1791,17 @@ BOOKING SECTION
 
             <div class="input-group">
 
-                <input type="date" id="returnDate" placeholder="Return Date">
+                <div class="date-field">
+                    <label for="travelDate">Travel Date</label>
+                    <input type="date" id="travelDate" required>
+                </div>
 
-                <input type="number" id="passengers" min="1" value="1" placeholder="Passengers" required>
+                <div class="date-field">
+                    <label for="returnDate">Return Date</label>
+                    <input type="date" id="returnDate">
+                </div>
 
             </div>
-
             <!-- Pickup -->
 
             <div class="input-group">
