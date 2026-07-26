@@ -28,8 +28,12 @@ const iti = window.intlTelInput(phoneInput, {
 
     separateDialCode: true,
 
+    nationalMode: true,
+
+    autoPlaceholder: "aggressive",
+
     utilsScript:
-    "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
 
 });
 // ==========================
@@ -52,16 +56,18 @@ bookingForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
     // ==========================
-// PHONE VALIDATION
-// ==========================
+    // PHONE VALIDATION
+    // ==========================
 
-if (!iti.isValidNumber()) {
+    if (!iti.isValidNumber()) {
 
-    alert("Please enter a valid phone number.");
+        alert(
+            "Please enter a valid phone number e.g. 712345678"
+        );
 
-    return;
+        return;
 
-}
+    }
     const user = auth.currentUser;
     console.log("Current user:", user);
 
