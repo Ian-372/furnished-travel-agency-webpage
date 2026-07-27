@@ -27,6 +27,13 @@ let currentAdmin = null;
 const ADMIN_EMAIL = "ianmutuli36@gmail.com";
 
 onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+    window.location.href = "admin-login.html";
+    return;
+}
+
+console.log(user);
+console.log("Email verified:", user.emailVerified);
 
     // ==========================
     // USER NOT LOGGED IN
@@ -585,11 +592,6 @@ function loadCharts() {
         serviceChart.destroy();
 
     }
-
-
-
-
-
     destinationChart = new Chart(
         destinationCtx,
         {
@@ -622,12 +624,6 @@ function loadCharts() {
 
 
         });
-
-
-
-
-
-
     serviceChart = new Chart(
         serviceCtx,
         {

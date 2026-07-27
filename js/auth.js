@@ -58,6 +58,10 @@ if (signupBtn) {
 
                 const user =
                     userCredential.user;
+                import {
+                    sendEmailVerification
+                } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+                await sendEmailVerification(user);
 
 
 
