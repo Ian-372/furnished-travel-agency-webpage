@@ -10,6 +10,50 @@ import {
 
 
 console.log("Booking module loaded");
+window.addEventListener("DOMContentLoaded", () => {
+
+
+    const savedBooking =
+        sessionStorage.getItem("pendingBooking");
+
+
+    if (savedBooking) {
+
+
+        const data =
+            JSON.parse(savedBooking);
+
+
+        Object.keys(data).forEach((key) => {
+
+
+            const field =
+                document.getElementById(key);
+
+
+            if (field) {
+
+                field.value = data[key];
+
+            }
+
+
+        });
+
+
+        sessionStorage.removeItem(
+            "pendingBooking"
+        );
+
+
+        console.log(
+            "Previous booking details restored"
+        );
+
+    }
+
+
+});
 
 
 // ==========================
@@ -20,16 +64,20 @@ console.log("Booking module loaded");
 
 const bookingForm = document.getElementById("bookingForm");
 const bookJourneyBtn =
-document.getElementById("bookJourneyBtn");
+    document.getElementById("bookJourneyBtn");
 console.log("Book button:", bookJourneyBtn);
 
 
 if (bookJourneyBtn) {
 
-    bookJourneyBtn.addEventListener("click", async () => {
+    bookJourneyBtn.addEventListener("click", () => {
 
 
         const user = auth.currentUser;
+
+
+        console.log("Button clicked");
+        console.log("Current user:", user);
 
 
         if (!user) {
@@ -40,8 +88,7 @@ if (bookJourneyBtn) {
             );
 
 
-            window.location.href =
-            "login.html";
+            window.location.href = "login.html";
 
 
             return;
@@ -50,6 +97,7 @@ if (bookJourneyBtn) {
 
 
         bookingForm.requestSubmit();
+
 
     });
 
@@ -118,21 +166,36 @@ bookingForm.addEventListener("submit", async (e) => {
         return;
 
     }
-const user = auth.currentUser;
+    const user = auth.currentUser;
 
-if (!user) {
+    if (!user) {
 
-    sessionStorage.setItem(
-        "redirectAfterLogin",
-        "index.html#booking"
-    );
 
-    window.location.href =
-    "login.html";
+        const formData =
+            Object.fromEntries(
+                new FormData(bookingForm)
+            );
 
-    return;
 
-}
+        sessionStorage.setItem(
+            "pendingBooking",
+            JSON.stringify(formData)
+        );
+
+
+        sessionStorage.setItem(
+            "redirectAfterLogin",
+            "index.html#booking"
+        );
+
+
+        window.location.href =
+            "login.html";
+
+
+        return;
+
+    }
 
 
 

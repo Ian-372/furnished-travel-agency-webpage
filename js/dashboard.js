@@ -138,3 +138,35 @@ Quotation not available yet.
     }
 
 });
+// ==========================
+// LOGOUT SYSTEM
+// ==========================
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", async () => {
+
+        try {
+
+            await signOut(auth);
+
+            alert("Logged out successfully.");
+
+            window.location.href = "index.html";
+
+        }
+
+        catch(error) {
+
+            console.error("Logout error:", error);
+
+            alert("Logout failed.");
+
+        }
+
+    });
+
+}
