@@ -25,28 +25,34 @@ import {
 let currentAdmin = null;
 
 
-onAuthStateChanged(auth, (user) => {
+const ADMIN_EMAIL = "ianmutuli36@gmail.com";
 
+onAuthStateChanged(auth, async (user) => {
 
+    // No user logged in
     if (!user) {
+        window.location.href = "admin-login.html";
+        return;
+    }
+
+    // Logged in but NOT admin
+    if (user.email !== ADMIN_EMAIL) {
+
+        alert("Access denied. Administrator privileges required.");
+
+        await signOut(auth);
 
         window.location.href = "admin-login.html";
 
         return;
-
     }
 
-
+    // Valid admin
     currentAdmin = user;
 
-
     if (currentAdminEmail) {
-
-        currentAdminEmail.textContent =
-            user.email;
-
+        currentAdminEmail.textContent = user.email;
     }
-
 
 });
 
@@ -736,9 +742,6 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
                 quotationAmount: amount
             }
         );
-
-
-
 
         alert(
             "Quotation sent successfully"
