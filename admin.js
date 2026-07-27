@@ -24,18 +24,39 @@ import {
 
 let currentAdmin = null;
 
-
 const ADMIN_EMAIL = "ianmutuli36@gmail.com";
 
 onAuthStateChanged(auth, async (user) => {
 
-    // No user logged in
+    // ==========================
+    // USER NOT LOGGED IN
+    // ==========================
     if (!user) {
+
         window.location.href = "admin-login.html";
+
         return;
+
     }
 
-    // Logged in but NOT admin
+    // ==========================
+    // EMAIL NOT VERIFIED
+    // ==========================
+    if (!user.emailVerified) {
+
+        alert("Please verify your email before accessing the admin dashboard.");
+
+        await signOut(auth);
+
+        window.location.href = "admin-login.html";
+
+        return;
+
+    }
+
+    // ==========================
+    // NOT THE ADMIN ACCOUNT
+    // ==========================
     if (user.email !== ADMIN_EMAIL) {
 
         alert("Access denied. Administrator privileges required.");
@@ -45,17 +66,23 @@ onAuthStateChanged(auth, async (user) => {
         window.location.href = "admin-login.html";
 
         return;
+
     }
 
-    // Valid admin
+    // ==========================
+    // AUTHORIZED ADMIN
+    // ==========================
     currentAdmin = user;
 
     if (currentAdminEmail) {
+
         currentAdminEmail.textContent = user.email;
+
     }
 
-});
+    console.log("✅ Admin authenticated:", user.email);
 
+});
 
 
 // ==========================
@@ -103,7 +130,7 @@ onSnapshot(collection(db, "bookings"), (snapshot) => {
 
 
     bookingsTable.innerHTML = "";
-    bookingsTable.innerHTML = "";
+
 
     if (customersTable) customersTable.innerHTML = "";
     if (paymentsTable) paymentsTable.innerHTML = "";
