@@ -6,14 +6,14 @@
 
 :root {
 
-    --black:#050807;
-    --dark-green:#062e1b;
-    --green:#0b5a34;
-    --gold:#c9a227;
-    --light-gold:#e4c766;
-    --cream:#f8f3e7;
-    --glass:rgba(255,255,255,.08);
-    --border:rgba(201,162,39,.35);
+    --black: #050807;
+    --dark-green: #062e1b;
+    --green: #0b5a34;
+    --gold: #c9a227;
+    --light-gold: #e4c766;
+    --cream: #f8f3e7;
+    --glass: rgba(255, 255, 255, .08);
+    --border: rgba(201, 162, 39, .35);
 
 }
 
@@ -21,9 +21,9 @@
 
 * {
 
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 
 }
 
@@ -31,32 +31,30 @@
 
 body {
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 
-    align-items:center;
+    align-items: center;
 
-    font-family:'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
 
-    color:var(--cream);
+    color: var(--cream);
 
 
     background:
 
-    linear-gradient(
-        rgba(5,8,7,.85),
-        rgba(5,8,7,.85)
-    ),
+        linear-gradient(rgba(5, 8, 7, .85),
+            rgba(5, 8, 7, .85)),
 
-    url("https://images.unsplash.com/photo-1516426122078-c23e76319801");
+        url("https://images.unsplash.com/photo-1516426122078-c23e76319801");
 
 
-    background-size:cover;
+    background-size: cover;
 
-    background-position:center;
+    background-position: center;
 
 
 }
@@ -66,36 +64,36 @@ body {
 .auth-container {
 
 
-    width:90%;
+    width: 90%;
 
-    max-width:430px;
+    max-width: 430px;
 
 
-    padding:45px;
+    padding: 45px;
 
 
     background:
 
-    rgba(255,255,255,.08);
+        rgba(255, 255, 255, .08);
 
 
-    backdrop-filter:blur(18px);
+    backdrop-filter: blur(18px);
 
 
     border:
 
-    1px solid var(--border);
+        1px solid var(--border);
 
 
-    border-radius:25px;
+    border-radius: 25px;
 
 
     box-shadow:
 
-    0 20px 60px rgba(0,0,0,.5);
+        0 20px 60px rgba(0, 0, 0, .5);
 
 
-    text-align:center;
+    text-align: center;
 
 
 }
@@ -105,16 +103,16 @@ body {
 .auth-container h1 {
 
 
-    font-family:'Playfair Display',serif;
+    font-family: 'Playfair Display', serif;
 
 
-    font-size:2.4rem;
+    font-size: 2.4rem;
 
 
-    margin-bottom:35px;
+    margin-bottom: 35px;
 
 
-    color:var(--cream);
+    color: var(--cream);
 
 
 }
@@ -123,7 +121,7 @@ body {
 
 .auth-container h1::first-letter {
 
-    color:var(--gold);
+    color: var(--gold);
 
 }
 
@@ -132,35 +130,35 @@ body {
 .auth-container input {
 
 
-    width:100%;
+    width: 100%;
 
 
-    padding:16px;
+    padding: 16px;
 
 
-    margin-bottom:20px;
+    margin-bottom: 20px;
 
 
     background:
 
-    rgba(255,255,255,.08);
+        rgba(255, 255, 255, .08);
 
 
     border:
 
-    1px solid var(--border);
+        1px solid var(--border);
 
 
-    border-radius:12px;
+    border-radius: 12px;
 
 
-    color:white;
+    color: white;
 
 
-    outline:none;
+    outline: none;
 
 
-    font-size:1rem;
+    font-size: 1rem;
 
 
 }
@@ -170,7 +168,7 @@ body {
 .auth-container input::placeholder {
 
 
-    color:#ccc;
+    color: #ccc;
 
 }
 
@@ -179,7 +177,7 @@ body {
 .auth-container input:focus {
 
 
-    border-color:var(--gold);
+    border-color: var(--gold);
 
 }
 
@@ -188,34 +186,34 @@ body {
 .auth-container button {
 
 
-    width:100%;
+    width: 100%;
 
 
-    padding:16px;
+    padding: 16px;
 
 
-    border:none;
+    border: none;
 
 
-    border-radius:50px;
+    border-radius: 50px;
 
 
-    background:var(--gold);
+    background: var(--gold);
 
 
-    color:#000;
+    color: #000;
 
 
-    font-weight:bold;
+    font-weight: bold;
 
 
-    cursor:pointer;
+    cursor: pointer;
 
 
-    transition:.5s;
+    transition: .5s;
 
 
-    font-size:1rem;
+    font-size: 1rem;
 
 
 }
@@ -225,10 +223,10 @@ body {
 .auth-container button:hover {
 
 
-    transform:translateY(-5px);
+    transform: translateY(-5px);
 
 
-    background:var(--light-gold);
+    background: var(--light-gold);
 
 
 }
@@ -238,10 +236,10 @@ body {
 .auth-container p {
 
 
-    margin-top:25px;
+    margin-top: 25px;
 
 
-    color:#ccc;
+    color: #ccc;
 
 
 }
@@ -251,7 +249,7 @@ body {
 .auth-container a {
 
 
-    color:var(--gold);
+    color: var(--gold);
 
 
 }
@@ -261,7 +259,7 @@ body {
 .auth-container a:hover {
 
 
-    color:var(--light-gold);
+    color: var(--light-gold);
 
 
 }
@@ -271,13 +269,16 @@ body {
 /* MOBILE */
 
 
-@media(max-width:500px){
+@media(max-width:500px) {
 
 
     .auth-container {
 
+        width: 92%;
 
-        padding:30px 20px;
+        padding: 35px 25px;
+
+        border-radius: 20px;
 
     }
 
@@ -285,8 +286,41 @@ body {
 
     .auth-container h1 {
 
+        font-size: 2rem;
 
-        font-size:1.8rem;
+        margin-bottom: 30px;
+
+    }
+
+
+
+    .auth-container input {
+
+        padding: 18px;
+
+        font-size: 1.05rem;
+
+        margin-bottom: 18px;
+
+    }
+
+
+
+    .auth-container button {
+
+        padding: 18px;
+
+        font-size: 1.05rem;
+
+    }
+
+
+
+    .auth-container p {
+
+        font-size: 0.95rem;
+
+        margin-top: 20px;
 
     }
 
