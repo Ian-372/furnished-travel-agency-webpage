@@ -28,12 +28,12 @@ const ADMIN_EMAIL = "ianmutuli36@gmail.com";
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
-    window.location.href = "admin-login.html";
-    return;
-}
+        window.location.href = "admin-login.html";
+        return;
+    }
 
-console.log(user);
-console.log("Email verified:", user.emailVerified);
+    console.log(user);
+    console.log("Email verified:", user.emailVerified);
 
     // ==========================
     // USER NOT LOGGED IN
@@ -842,6 +842,88 @@ navItems.forEach(item => {
 });
 
 // ==========================
+// PASSWORD STRENGTH CHECK
+// ==========================
+
+function validatePassword(password) {
+
+    const errors = [];
+
+    if (password.length < 10) {
+        errors.push("• At least 10 characters");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        errors.push("• One uppercase letter");
+    }
+
+    if (!/[a-z]/.test(password)) {
+        errors.push("• One lowercase letter");
+    }
+
+    if (!/[0-9]/.test(password)) {
+        errors.push("• One number");
+    }
+
+    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+        errors.push("• One special character");
+    }
+
+    return errors;
+
+}
+const passwordInput =
+    document.getElementById("newPassword");
+
+const passwordStrength =
+    document.getElementById("passwordStrength");
+
+if (passwordInput) {
+
+    passwordInput.addEventListener("input", () => {
+
+        const password = passwordInput.value;
+
+        let score = 0;
+
+        if (password.length >= 10) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score++;
+
+        if (score <= 2) {
+
+            passwordStrength.textContent =
+                "Password strength: Weak";
+
+            passwordStrength.style.color = "#e74c3c";
+
+        }
+
+        else if (score === 3 || score === 4) {
+
+            passwordStrength.textContent =
+                "Password strength: Medium";
+
+            passwordStrength.style.color = "#f39c12";
+
+        }
+
+        else {
+
+            passwordStrength.textContent =
+                "Password strength: Strong";
+
+            passwordStrength.style.color = "#27ae60";
+
+        }
+
+    });
+
+}
+
+// ==========================
 // CHANGE PASSWORD
 // ==========================
 
@@ -870,9 +952,17 @@ if (changePasswordBtn) {
 
 
 
-        if (newPassword.length < 6) {
+        const passwordErrors = validatePassword(newPassword);
 
-            alert("New password must be at least 6 characters");
+        if (passwordErrors.length > 0) {
+
+            alert(
+                `Your password is not strong enough.
+
+                 It must contain:
+
+                   ${passwordErrors.join("\n")}`
+            );
 
             return;
 
