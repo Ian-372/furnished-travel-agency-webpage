@@ -6,36 +6,66 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+
+
+
 console.log("Booking module loaded");
 
-const bookingForm = document.getElementById("bookingForm");
+
 // ==========================
-// INTERNATIONAL PHONE INPUT
+// FORCE LOGIN BEFORE BOOKING
+// ==========================
+
+
+
+const bookingForm = document.getElementById("bookingForm");
+const bookJourneyBtn =
+document.getElementById("bookJourneyBtn");
+console.log("Book button:", bookJourneyBtn);
+
+
+if (bookJourneyBtn) {
+
+    bookJourneyBtn.addEventListener("click", async () => {
+
+
+        const user = auth.currentUser;
+
+
+        if (!user) {
+
+            sessionStorage.setItem(
+                "redirectAfterLogin",
+                "index.html#booking"
+            );
+
+
+            window.location.href =
+            "login.html";
+
+
+            return;
+
+        }
+
+
+        bookingForm.requestSubmit();
+
+    });
+
+}
+
+
+// ==========================
+// PHONE INPUT SYSTEM
 // ==========================
 
 const phoneInput = document.querySelector("#phone");
+const countryCode = document.querySelector("#countryCode");
 
 
-const iti = window.intlTelInput(phoneInput, {
 
-    initialCountry: "ke",
 
-    preferredCountries: [
-        "ke",
-        "ug",
-        "tz"
-    ],
-
-    separateDialCode: true,
-
-    nationalMode: true,
-
-    autoPlaceholder: "aggressive",
-
-    utilsScript:
-        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-
-});
 // ==========================
 // SHOW/HIDE VEHICLE FIELDS
 // ==========================
@@ -59,27 +89,52 @@ bookingForm.addEventListener("submit", async (e) => {
     // PHONE VALIDATION
     // ==========================
 
-    if (!iti.isValidNumber()) {
 
-        alert(
-            "Please enter a valid phone number e.g. 712345678"
-        );
+    if (!phoneInput || !countryCode) {
 
-        return;
-
-    }
-    const user = auth.currentUser;
-    console.log("Current user:", user);
-
-    if (!user) {
-
-        alert("Please login to your customer account before making a booking.");
-
-        window.location.href = "login.html";
+        alert("Phone input system not loaded");
 
         return;
 
     }
+    const enteredNumber = phoneInput.value.trim();
+
+    const fullPhone =
+        countryCode.value + enteredNumber.replace(/^0+/, "");
+
+
+
+    console.log("Typed:", enteredNumber);
+    console.log("Country Code:", countryCode.value);
+    console.log("Final Phone:", fullPhone);
+
+
+    // basic validation
+    const digits = enteredNumber.replace(/\D/g, "");
+
+    if (digits.length < 7 || digits.length > 12) {
+
+        alert("Please enter a valid phone number.");
+        return;
+
+    }
+const user = auth.currentUser;
+
+if (!user) {
+
+    sessionStorage.setItem(
+        "redirectAfterLogin",
+        "index.html#booking"
+    );
+
+    window.location.href =
+    "login.html";
+
+    return;
+
+}
+
+
 
     const destination =
         document.getElementById("destination").value === "other"
@@ -90,12 +145,13 @@ bookingForm.addEventListener("submit", async (e) => {
     const booking = {
         userId: user.uid,
 
+        customerEmail: user.email,
+
         fullName: document.getElementById("fullName").value,
 
         email: document.getElementById("email").value,
 
-        phone: iti.getNumber(),
-
+        phone: fullPhone,
         service: document.getElementById("service").value,
         vehicleReservation:
             document.getElementById("vehicleReservation").value,
