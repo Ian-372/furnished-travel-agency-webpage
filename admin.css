@@ -839,3 +839,10 @@ canvas {
     opacity: 1;
 
 }
+
+.password-strength {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s ease;
+}

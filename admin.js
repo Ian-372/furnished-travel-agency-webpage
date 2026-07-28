@@ -910,7 +910,7 @@ if (passwordInput) {
 
         }
 
-        else {
+        else { 
 
             passwordStrength.textContent =
                 "Password strength: Strong";

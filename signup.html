@@ -1,68 +1,59 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Create Account | Little Monks Safaris</title>
-
 <link rel="stylesheet" href="auth.css">
-
 </head>
-
-
 <body>
-
-
 <div class="auth-container">
-
-
 <h1>
 Create Your Safari Account
 </h1>
-
-
 <input 
 id="name"
 type="text"
 placeholder="Full Name">
-
-
 <input 
 id="email"
 type="email"
 placeholder="Email Address">
+<div class="password-field">
+    <input
+        type="password"
+        id="password"
+        placeholder="Create Password">
+    <span
+        class="toggle-password"
+        data-target="password">
+        👁️
+    </span>
+</div>
+<div class="password-field">
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password">
+    <span
+        class="toggle-password"
+        data-target="confirmPassword">
+        👁️
+    </span>
+</div>
+<div id="passwordMatch"></div>
+<div id="signupPasswordStrength" class="password-strength">
+    Password strength : -
 
-
-<input 
-id="password"
-type="password"
-placeholder="Password">
-
-
+</div>
 <button id="signupBtn">
-
 Create Account
-
 </button>
-
-
 <p>
 Already have an account?
-
 <a href="login.html">
 Login
 </a>
-
 </p>
-
-
 </div>
-
-
-
 <script type="module" src="js/auth.js"></script>
-
-
 </body>
-
 </html>
