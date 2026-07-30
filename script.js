@@ -268,37 +268,30 @@ grids.forEach(grid => {
 
 
 // ===============================
-// HERO PARALLAX
+// HERO SLIDESHOW
 // ===============================
 
+const slides = document.querySelectorAll(".slide");
 
-const heroImage =
-    document.querySelector(".hero-background");
+let currentSlide = 0;
 
+if (slides.length > 0) {
 
+    setInterval(() => {
 
-window.addEventListener("scroll", () => {
+        slides[currentSlide].classList.remove("active");
 
+        currentSlide++;
 
-    if (heroImage) {
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
 
+        slides[currentSlide].classList.add("active");
 
-        let scroll =
-            window.scrollY;
+    }, 6000);
 
-
-
-        heroImage.style.transform =
-            `scale(1.1) translateY(${scroll * 0.15}px)`;
-
-
-
-    }
-
-
-
-});
-
+}
 
 
 
