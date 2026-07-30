@@ -57,18 +57,15 @@ onAuthStateChanged(auth, async (user) => {
             "<p>No bookings yet.</p>";
 
     }
+
     else {
 
-
         snapshot.forEach((bookingDoc) => {
-
 
             const booking =
                 bookingDoc.data();
 
-
             console.log("Booking data:", booking);
-
 
             bookingsContainer.innerHTML += `
 
@@ -78,24 +75,20 @@ onAuthStateChanged(auth, async (user) => {
 ${booking.destination}
 </h3>
 
-
 <p>
 Service:
 ${booking.service}
 </p>
-
 
 <p>
 Travel Date:
 ${booking.travelDate}
 </p>
 
-
 <p>
 Status:
 ${booking.status}
 </p>
-
 
 ${booking.quotation?.sent
 
@@ -108,14 +101,38 @@ ${booking.quotation?.sent
 Quotation:
 </strong>
 
-KES ${booking.quotation.amount}
+KES ${Number(booking.quotation.amount).toLocaleString()}
 
 </p>
 
 <p>
-Your quotation has been prepared. 
-Little Monks Safaris will contact you with the next steps.
+<strong>
+Payment Status:
+</strong>
+
+${booking.payment?.status || "Pending"}
+
 </p>
+
+<button
+class="payBtn"
+data-id="${bookingDoc.id}"
+data-amount="${booking.quotation.amount}"
+${booking.payment?.status === "Paid" ? "disabled" : ""}>
+
+${booking.payment?.status === "Paid"
+
+                        ?
+
+                        "✓ Payment Received"
+
+                        :
+
+                        "Pay via M-Pesa"
+
+                    }
+
+</button>
 
 `
 
@@ -127,10 +144,24 @@ Little Monks Safaris will contact you with the next steps.
 Quotation not available yet.
 </p>
 
+<p>
+Please wait while Little Monks Safaris prepares your quotation.
+</p>
+
+<button
+class="payBtn"
+disabled>
+
+Pay via M-Pesa
+
+</button>
+
 `
 
                 }
+
 </div>
+
 `;
 
         });
@@ -159,7 +190,7 @@ if (logoutBtn) {
 
         }
 
-        catch(error) {
+        catch (error) {
 
             console.error("Logout error:", error);
 
@@ -170,3 +201,84 @@ if (logoutBtn) {
     });
 
 }
+
+// ==========================
+// MPESA PAYMENT
+// ==========================
+
+document.addEventListener("click", async (event) => {
+
+    if (!event.target.classList.contains("payBtn")) return;
+
+    const amount = event.target.dataset.amount;
+    const bookingId = event.target.dataset.id;
+
+    const phone = prompt(
+        "Enter your M-Pesa phone number\nExample: 254712345678"
+    );
+
+    if (!phone) return;
+
+    event.target.disabled = true;
+    event.target.textContent = "Sending STK Push...";
+
+    try {
+
+        const response = await fetch(
+            "https://daraja-worker.ianmutuli36.workers.dev/stkpush",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    bookingId,
+
+                    amount,
+
+                    phone
+
+                })
+
+            }
+        );
+
+        const result = await response.json();
+
+        if (response.ok) {
+
+            alert(
+                "STK Push sent successfully.\nPlease check your phone."
+            );
+
+        }
+
+        else {
+
+            alert(
+                result.message || "Payment request failed."
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to connect to payment server.");
+
+    }
+
+    finally {
+
+        event.target.disabled = false;
+        event.target.textContent = "Pay via M-Pesa";
+
+    }
+
+});

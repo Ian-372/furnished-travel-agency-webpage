@@ -737,22 +737,35 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
 
             {
 
-
                 quotation: {
-
 
                     amount: Number(amount),
 
                     currency: "KES",
 
-                    sent: true
+                    sent: true,
 
+                    sentAt: new Date().toISOString()
 
                 },
 
+                payment: {
+
+                    status: "Pending",
+
+                    amount: Number(amount),
+
+                    method: "M-Pesa",
+
+                    receipt: "",
+
+                    phone: "",
+
+                    paidAt: ""
+
+                },
 
                 status: "Quoted"
-
 
             }
 
@@ -910,7 +923,7 @@ if (passwordInput) {
 
         }
 
-        else { 
+        else {
 
             passwordStrength.textContent =
                 "Password strength: Strong";
