@@ -24,7 +24,7 @@ import {
 
 let currentAdmin = null;
 
-const ADMIN_EMAIL = "ianmutuli36@gmail.com";
+const ADMIN_EMAIL = "littlemonksltd@gmail.com";
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -76,7 +76,7 @@ onAuthStateChanged(auth, async (user) => {
         currentAdminEmail.textContent = user.email;
 
     }
-
+    document.body.style.display = "block";
     console.log("✅ Admin authenticated:", user.email);
 
 });
