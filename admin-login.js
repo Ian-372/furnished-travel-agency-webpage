@@ -6,7 +6,7 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const ADMIN_EMAIL = "ianmutuli36@gmail.com";
+const ADMIN_EMAIL = "littlemonksltd@gmail.com";
 
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
