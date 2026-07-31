@@ -35,16 +35,6 @@ onAuthStateChanged(auth, async (user) => {
     console.log(user);
     console.log("Email verified:", user.emailVerified);
 
-    // ==========================
-    // USER NOT LOGGED IN
-    // ==========================
-    if (!user) {
-
-        window.location.href = "admin-login.html";
-
-        return;
-
-    }
 
     // ==========================
     // EMAIL NOT VERIFIED
@@ -103,6 +93,8 @@ const totalBookings = document.getElementById("totalBookings");
 const pendingBookings = document.getElementById("pendingBookings");
 
 const completedBookings = document.getElementById("completedBookings");
+const confirmedBookings =
+    document.getElementById("confirmedBookings");
 
 const logoutBtn = document.getElementById("logoutBtn");
 const currentAdminEmail =
@@ -133,94 +125,94 @@ let selectedBookingId = null;
 // LOAD BOOKINGS
 // ==========================
 
-onSnapshot(collection(db, "bookings"), (snapshot) => {
+onSnapshot(
+    collection(db, "bookings"),
+    (snapshot) => {
 
 
-    bookingsTable.innerHTML = "";
+        bookingsTable.innerHTML = "";
 
 
-    if (customersTable) customersTable.innerHTML = "";
-    if (paymentsTable) paymentsTable.innerHTML = "";
+        if (customersTable) customersTable.innerHTML = "";
+        if (paymentsTable) paymentsTable.innerHTML = "";
 
+        let total = 0;
 
-    let total = 0;
+        let pending = 0;
 
-    let pending = 0;
+        let confirmed = 0;
 
-    let completed = 0;
+        let completed = 0;
 
-    let quoted = 0;
-
-
-
-    snapshot.forEach((document) => {
-
-
-        total++;
-
-
-        const booking = document.data();
-        // Analytics counting
-
-
-        if (destinationData[booking.destination]) {
-
-            destinationData[booking.destination]++;
-
-        }
-        else {
-
-            destinationData[booking.destination] = 1;
-
-        }
+        let quoted = 0;
 
 
 
-        if (serviceData[booking.service]) {
-
-            serviceData[booking.service]++;
-
-        }
-        else {
-
-            serviceData[booking.service] = 1;
-
-        }
+        snapshot.forEach((document) => {
 
 
-
-        // Save booking locally for viewing
-
-        allBookings[document.id] = booking;
+            total++;
 
 
+            const booking = document.data();
+            console.log(document.id, JSON.stringify(booking, null, 2));
+            // Analytics counting
 
 
-        if (booking.status === "Pending") {
+            if (destinationData[booking.destination]) {
 
-            pending++;
+                destinationData[booking.destination]++;
 
-        }
+            }
+            else {
+
+                destinationData[booking.destination] = 1;
+
+            }
 
 
 
-        if (booking.status === "Completed") {
+            if (serviceData[booking.service]) {
 
-            completed++;
+                serviceData[booking.service]++;
 
-        }
+            }
+            else {
 
-        if (booking.status === "Quoted") {
+                serviceData[booking.service] = 1;
 
-            quoted++;
-
-        }
-
+            }
 
 
 
+            // Save booking locally for viewing
 
-        bookingsTable.innerHTML += `
+            allBookings[document.id] = booking;
+
+
+
+            if (
+                booking.status === "Pending" ||
+                booking.status === "Pending Quote"
+            ) {
+                pending++;
+            }
+
+
+            if (booking.status === "Confirmed") {
+                confirmed++;
+            }
+
+
+            if (booking.status === "Completed") {
+                completed++;
+            }
+
+
+
+
+
+            bookingsTable.innerHTML += `
 
 
         <tr>
@@ -241,7 +233,7 @@ onSnapshot(collection(db, "bookings"), (snapshot) => {
 
             <td>
 
-                <span class="status ${booking.status.toLowerCase()}">
+               <span class="status ${(booking.status || "Pending").toLowerCase()}">
 
                     ${booking.status}
 
@@ -292,9 +284,9 @@ onSnapshot(collection(db, "bookings"), (snapshot) => {
 
 
         `;
-        if (customersTable) {
+            if (customersTable) {
 
-            customersTable.innerHTML += `
+                customersTable.innerHTML += `
         <tr>
             <td>${booking.fullName}</td>
             <td>${booking.email}</td>
@@ -303,11 +295,11 @@ onSnapshot(collection(db, "bookings"), (snapshot) => {
         </tr>
     `;
 
-        }
+            }
 
-        if (paymentsTable) {
+            if (paymentsTable) {
 
-            paymentsTable.innerHTML += `
+                paymentsTable.innerHTML += `
         <tr>
             <td>${booking.fullName}</td>
             <td>KES ${booking.quotation?.amount || 0}</td>
@@ -316,23 +308,33 @@ onSnapshot(collection(db, "bookings"), (snapshot) => {
         </tr>
     `;
 
-        }
+            }
+
+
+        });
+
+
+
+        totalBookings.textContent = total;
+
+        pendingBookings.textContent = pending;
+
+        confirmedBookings.textContent = confirmed;
+
+        completedBookings.textContent = completed;
+
+        loadCharts();
+
+    },
+    (error) => {
+
+        console.error("Firestore listener error:", error);
+
+
+
 
 
     });
-
-
-
-    totalBookings.textContent = total;
-
-    pendingBookings.textContent = pending;
-
-    completedBookings.textContent = completed;
-    loadCharts();
-
-
-
-});
 
 
 
@@ -351,7 +353,7 @@ window.confirmBooking = async function (id) {
             doc(db, "bookings", id),
             {
 
-                status: "Completed"
+                status: "Confirmed"
 
             }
         );

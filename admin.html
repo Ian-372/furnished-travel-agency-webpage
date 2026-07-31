@@ -155,6 +155,7 @@
 
                     <option value="all">All Status</option>
                     <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
                     <option value="Completed">Completed</option>
 
                 </select>
@@ -244,6 +245,8 @@
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Method</th>
+                        <th>Transaction ID</th>
+                        <th>Paid At</th>
                     </tr>
                 </thead>
 
@@ -265,68 +268,68 @@
             <div class="settings-grid">
 
 
-                <!-- CURRENT ADMIN -->
+            <!-- CURRENT ADMIN -->
 
-                <div class="settings-card">
+            <div class="settings-card">
 
-                    <h3>Account Information</h3>
+                <h3>Account Information</h3>
 
-                    <p>
-                        Logged in as:
-                    </p>
+                <p>
+                    Logged in as:
+                </p>
 
-                    <strong id="currentAdminEmail">
-                        Loading...
-                    </strong>
+                <strong id="currentAdminEmail">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+
+            <!-- CHANGE PASSWORD -->
+
+            <div class="settings-card">
+
+                <h3>Change Password</h3>
+
+
+                <div class="password-field">
+
+                    <input type="password" id="currentPassword" placeholder="Current password">
+
+
+                    <span class="toggle-password" data-target="currentPassword">
+                        👁️
+                    </span>
+
+                </div>
+
+
+
+                <div class="password-field">
+
+                    <input type="password" id="newPassword" placeholder="New password">
+                    <div id="passwordStrength" class="password-strength">
+                        Password strength: —
+                    </div>
+
+
+                    <span class="toggle-password" data-target="newPassword">
+                        👁️
+                    </span>
 
                 </div>
 
 
 
-                <!-- CHANGE PASSWORD -->
+                <button id="changePasswordBtn" class="confirmBtn">
 
-                <div class="settings-card">
+                    Update Password
 
-                    <h3>Change Password</h3>
-
-
-                    <div class="password-field">
-
-                        <input type="password" id="currentPassword" placeholder="Current password">
+                </button>
 
 
-                        <span class="toggle-password" data-target="currentPassword">
-                            👁️
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="password-field">
-
-                        <input type="password" id="newPassword" placeholder="New password">
-                        <div id="passwordStrength" class="password-strength">
-                            Password strength: —
-                        </div>
-
-
-                        <span class="toggle-password" data-target="newPassword">
-                            👁️
-                        </span>
-
-                    </div>
-
-
-
-                    <button id="changePasswordBtn" class="confirmBtn">
-
-                        Update Password
-
-                    </button>
-
-
-                </div>
+            </div>
 
 
         </section>
@@ -366,8 +369,6 @@
 
         </div>
 
-
-    </div>
 
     </div>
 
