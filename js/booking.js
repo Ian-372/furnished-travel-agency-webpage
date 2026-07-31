@@ -131,6 +131,13 @@ if (serviceSelect && vehicleFields) {
     });
 }
 bookingForm.addEventListener("submit", async (e) => {
+    const submitBtn = document.getElementById("bookJourneyBtn");
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+    <span class="loader"></span>
+    Processing your booking...
+`;
 
     e.preventDefault();
     // ==========================
@@ -336,6 +343,8 @@ bookingForm.addEventListener("submit", async (e) => {
         alert(
             "✅ Booking request received! Little Monks Safaris will review your request and send you a quotation shortly."
         );
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Book My Reservation";
 
         bookingForm.reset();
 
@@ -360,6 +369,8 @@ bookingForm.addEventListener("submit", async (e) => {
 
 
         alert("Booking failed.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Book My Reservation";
 
     }
 

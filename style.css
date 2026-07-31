@@ -445,170 +445,166 @@ NAVBAR
 HERO SECTION
 ========================= */
 
-.hero{
+.hero {
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    position:relative;
+    position: relative;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    padding:0 8%;
+    padding: 0 8%;
 
-    overflow:hidden;
-
-}
-
-.hero-slideshow{
-
-    position:absolute;
-
-    inset:0;
-
-    z-index:0;
+    overflow: hidden;
 
 }
 
-.slide{
+.hero-slideshow {
 
-    position:absolute;
+    position: absolute;
 
-    inset:0;
+    inset: 0;
 
-    background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
-
-    opacity:0;
-
-    transform:scale(1);
-
-    transition:opacity 2s ease;
-
-    animation:kenburns 14s linear infinite;
+    z-index: 0;
 
 }
 
-.slide.active{
+.slide {
 
-    opacity:1;
+    position: absolute;
+
+    inset: 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    opacity: 0;
+
+    transform: scale(1);
+
+    transition: opacity 2s ease;
+
+    animation: kenburns 14s linear infinite;
 
 }
 
-@keyframes kenburns{
+.slide.active {
 
-    0%{
+    opacity: 1;
 
-        transform:scale(1);
+}
+
+@keyframes kenburns {
+
+    0% {
+
+        transform: scale(1);
 
     }
 
-    100%{
+    100% {
 
-        transform:scale(1.15);
+        transform: scale(1.15);
 
     }
 
 }
 
-.hero-overlay{
+.hero-overlay {
 
-    position:absolute;
+    position: absolute;
 
-    inset:0;
+    inset: 0;
 
     background:
-    linear-gradient(
+        linear-gradient(90deg,
 
-        90deg,
+            rgba(0, 0, 0, .78),
 
-        rgba(0,0,0,.78),
+            rgba(0, 0, 0, .35),
 
-        rgba(0,0,0,.35),
+            rgba(0, 0, 0, .55));
 
-        rgba(0,0,0,.55)
-
-    );
-
-    z-index:1;
+    z-index: 1;
 
 }
 
-.hero-content{
+.hero-content {
 
-    position:relative;
+    position: relative;
 
-    z-index:2;
+    z-index: 2;
 
-    max-width:850px;
-
-}
-
-.hero h1{
-
-    font-family:'Playfair Display',serif;
-
-    font-size:clamp(3rem,7vw,6.5rem);
-
-    line-height:1.05;
-
-    text-shadow:0 6px 25px rgba(0,0,0,.45);
+    max-width: 850px;
 
 }
 
-.hero-content p{
+.hero h1 {
 
-    margin-top:30px;
+    font-family: 'Playfair Display', serif;
 
-    max-width:620px;
+    font-size: clamp(3rem, 7vw, 6.5rem);
 
-    color:#ececec;
+    line-height: 1.05;
 
-    line-height:1.9;
-
-    text-shadow:0 2px 15px rgba(0,0,0,.45);
+    text-shadow: 0 6px 25px rgba(0, 0, 0, .45);
 
 }
 
-.hero-actions{
+.hero-content p {
 
-    display:flex;
+    margin-top: 30px;
 
-    gap:25px;
+    max-width: 620px;
 
-    margin-top:45px;
+    color: #ececec;
 
-}
+    line-height: 1.9;
 
-.scroll-indicator{
-
-    position:absolute;
-
-    bottom:40px;
-
-    left:8%;
-
-    z-index:3;
-
-    color:white;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, .45);
 
 }
 
-.scroll-indicator span{
+.hero-actions {
 
-    display:block;
+    display: flex;
 
-    width:1px;
+    gap: 25px;
 
-    height:50px;
+    margin-top: 45px;
 
-    margin-bottom:10px;
+}
 
-    background:var(--gold);
+.scroll-indicator {
+
+    position: absolute;
+
+    bottom: 40px;
+
+    left: 8%;
+
+    z-index: 3;
+
+    color: white;
+
+}
+
+.scroll-indicator span {
+
+    display: block;
+
+    width: 1px;
+
+    height: 50px;
+
+    margin-bottom: 10px;
+
+    background: var(--gold);
 
 }
 
@@ -2006,6 +2002,38 @@ BOOKING
 
 }
 
+#bookJourneyBtn {
+
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #d4af37, #f4d03f);
+
+    color: #111;
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+#bookJourneyBtn:hover {
+
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.35);
+
+}
+
+#bookJourneyBtn:disabled {
+
+    opacity: 0.7;
+    cursor: not-allowed;
+
+}
+
 
 
 
@@ -2390,22 +2418,22 @@ RESPONSIVE DESIGN
 
 
 
-  .nav-btn {
+    .nav-btn {
 
-    display: none;
+        display: none;
 
-}
+    }
 
 
-.dashboard-btn {
+    .dashboard-btn {
 
-    display: block;
+        display: block;
 
-    padding: 10px 18px;
+        padding: 10px 18px;
 
-    font-size: .8rem;
+        font-size: .8rem;
 
-}
+    }
 
 
 
@@ -2739,4 +2767,26 @@ CONTACT
 .iti input {
     width: 100%;
     padding-left: 95px !important;
+}
+
+.loader {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }

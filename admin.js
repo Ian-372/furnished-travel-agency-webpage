@@ -300,13 +300,15 @@ onSnapshot(
             if (paymentsTable) {
 
                 paymentsTable.innerHTML += `
-        <tr>
-            <td>${booking.fullName}</td>
-            <td>KES ${booking.quotation?.amount || 0}</td>
-            <td>${booking.payment?.status || "Unpaid"}</td>
-            <td>${booking.payment?.method || "-"}</td>
-        </tr>
-    `;
+<tr>
+    <td>${booking.fullName}</td>
+    <td>KES ${booking.quotation?.amount || 0}</td>
+    <td>${booking.payment?.status || "Unpaid"}</td>
+    <td>${booking.payment?.method || "-"}</td>
+    <td>${booking.payment?.receipt || "-"}</td>
+    <td>${booking.payment?.paidAt || "-"}</td>
+</tr>
+`;
 
             }
 

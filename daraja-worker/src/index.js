@@ -118,7 +118,64 @@ export default {
 		// ==========================
 		// POST /callback
 		// ==========================
+		if (
+			url.pathname === "/callback" &&
+			request.method === "POST"
+		) {
+
+			try {
+
+				const body = await request.json();
+
+				console.log(
+					"Daraja Callback:",
+					JSON.stringify(body, null, 2)
+				);
+
+				const callback = body.Body?.stkCallback;
+
+				if (!callback) {
+
+					return json({
+						ResultCode: 0,
+						ResultDesc: "Accepted"
+					});
+
+				}
+
+				await processCallback(
+					env,
+					callback
+				);
+
+				return json({
+					ResultCode: 0,
+					ResultDesc: "Accepted"
+				});
+
+			}
+
+			catch (err) {
+
+				console.error(
+					"Callback Error:",
+					err
+				);
+
+				return json({
+					ResultCode: 0,
+					ResultDesc: "Accepted"
+				});
+
+			}
+
+		}
+
+		// ==========================
+		// DEBUG
+		// ==========================
 		if (url.pathname === "/debug") {
+
 			const timestamp = getTimestamp();
 
 			const password = btoa(
@@ -131,6 +188,7 @@ export default {
 				password,
 				passkeyLength: env.PASSKEY.length
 			});
+
 		}
 
 		// ==========================
@@ -199,45 +257,46 @@ async function updateBookingPayment(
 ) {
 
 	const url =
-		`https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents/bookings/${bookingId}`;
+		`https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents/bookings/${bookingId}` +
+		`?updateMask.fieldPaths=payment`;
 
 	const body = {
 
-    fields: {
+		fields: {
 
-        payment: {
+			payment: {
 
-            mapValue: {
+				mapValue: {
 
-                fields: {
+					fields: {
 
-                    status: {
-                        stringValue: "Pending"
-                    },
+						status: {
+							stringValue: "Pending"
+						},
 
-                    method: {
-                        stringValue: "M-Pesa"
-                    },
+						method: {
+							stringValue: "M-Pesa"
+						},
 
-                    checkoutRequestID: {
-                        stringValue:
-                            data.CheckoutRequestID
-                    },
+						checkoutRequestID: {
+							stringValue:
+								data.CheckoutRequestID
+						},
 
-                    merchantRequestID: {
-                        stringValue:
-                            data.MerchantRequestID
-                    }
+						merchantRequestID: {
+							stringValue:
+								data.MerchantRequestID
+						}
 
-                }
+					}
 
-            }
+				}
 
-        }
+			}
 
-    }
+		}
 
-};
+	};
 
 
 
@@ -254,15 +313,9 @@ async function updateBookingPayment(
 		{
 			method: "PATCH",
 
-
-
-
 			headers: {
-				"Content-Type":
-					"application/json",
-
-				"Authorization":
-					`Bearer ${accessToken}`
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${accessToken}`
 			},
 
 			body: JSON.stringify(body)
@@ -270,16 +323,16 @@ async function updateBookingPayment(
 		}
 	);
 
+	const result = await response.json();
 
-	const result =
-		await response.json();
+	console.log("Firestore response status:", response.status);
+	console.log("Firestore response body:", result);
 
-
-	console.log(
-		"Firestore update result:",
-		result
-	);
-
+	if (!response.ok) {
+		throw new Error(
+			`Firestore update failed: ${JSON.stringify(result)}`
+		);
+	}
 }
 async function getFirebaseAccessToken(env) {
 
@@ -418,5 +471,214 @@ function pemToArrayBuffer(pem) {
 
 
 	return bytes.buffer;
+
+}
+
+async function processCallback(
+	env,
+	callback
+) {
+
+	const checkoutRequestID =
+		callback.CheckoutRequestID;
+
+	const resultCode =
+		callback.ResultCode;
+
+	const items =
+		callback.CallbackMetadata?.Item || [];
+
+	const getValue = (name) => {
+
+		const item = items.find(
+			x => x.Name === name
+		);
+
+		return item ? item.Value : "";
+
+	};
+
+	const receipt =
+		getValue("MpesaReceiptNumber");
+
+	const phone =
+		getValue("PhoneNumber");
+
+	const amount =
+		getValue("Amount");
+
+	const transactionDate =
+		getValue("TransactionDate");
+
+	console.log(
+		"Searching booking with CheckoutRequestID:",
+		checkoutRequestID
+	);
+
+	const accessToken =
+		await getFirebaseAccessToken(env);
+
+	const searchUrl =
+		`https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
+
+	const query = {
+		structuredQuery: {
+			from: [
+				{
+					collectionId: "bookings"
+				}
+			],
+			where: {
+				fieldFilter: {
+					field: {
+						fieldPath: "payment.checkoutRequestID"
+					},
+					op: "EQUAL",
+					value: {
+						stringValue: checkoutRequestID
+					}
+				}
+			},
+			limit: 1
+		}
+	};
+
+	const searchResponse =
+		await fetch(searchUrl, {
+			method: "POST",
+			headers: {
+				"Authorization": `Bearer ${accessToken}`,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(query)
+		});
+
+	const searchResult =
+		await searchResponse.json();
+
+	console.log(
+		"Search Result:",
+		searchResult
+	);
+
+	if (
+		!searchResult.length ||
+		!searchResult[0].document
+	) {
+
+		console.log(
+			"Booking not found."
+		);
+
+		return;
+
+	}
+
+	const documentName =
+		searchResult[0].document.name;
+
+	const updateUrl =
+		`https://firestore.googleapis.com/v1/${documentName}` +
+		`?updateMask.fieldPaths=payment` +
+		`&updateMask.fieldPaths=status`;
+
+	const body = {
+
+		fields: {
+
+			payment: {
+
+				mapValue: {
+
+					fields: {
+
+						status: {
+							stringValue:
+								resultCode === 0
+									? "Paid"
+									: "Failed"
+						},
+
+						method: {
+							stringValue: "M-Pesa"
+						},
+
+						checkoutRequestID: {
+							stringValue:
+								checkoutRequestID
+						},
+
+						merchantRequestID: {
+							stringValue:
+								callback.MerchantRequestID || ""
+						},
+
+						receipt: {
+							stringValue:
+								receipt
+						},
+
+						amount: {
+							integerValue:
+								String(amount || 0)
+						},
+
+						phone: {
+							stringValue:
+								String(phone || "")
+						},
+
+						paidAt: {
+							stringValue:
+								String(transactionDate || "")
+						}
+
+					}
+
+				}
+
+			},
+
+			status: {
+
+				stringValue:
+					resultCode === 0
+						? "Confirmed"
+						: "Payment Failed"
+
+			}
+
+		}
+
+	};
+
+	const updateResponse =
+		await fetch(updateUrl, {
+
+			method: "PATCH",
+
+			headers: {
+
+				"Authorization":
+					`Bearer ${accessToken}`,
+
+				"Content-Type":
+					"application/json"
+
+			},
+
+			body: JSON.stringify(body)
+
+		});
+
+	console.log(
+		"Firestore Update:",
+		await updateResponse.json()
+	);
+
+	console.log(
+		"Document Name:",
+		documentName
+	);
 
 }
