@@ -313,8 +313,8 @@ bookingForm.addEventListener("submit", async (e) => {
 
 
         await emailjs.send(
-            "service_ekdc1xn",
-            "template_rmzvqlc",
+            "service_d869q6m",
+            "template_2ewt3fs",
             booking
         );
 
@@ -326,8 +326,8 @@ bookingForm.addEventListener("submit", async (e) => {
 
 
         await emailjs.send(
-            "service_ekdc1xn",
-            "template_z6szxdk",
+            "service_d869q6m",
+            "template_2pc3qfh",
             {
                 ...booking,
                 bookingDate: new Date().toLocaleString()

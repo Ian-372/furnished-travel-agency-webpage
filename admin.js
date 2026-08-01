@@ -775,8 +775,8 @@ document.getElementById("bookingDetails").addEventListener("click", async (event
 
         );
         await emailjs.send(
-            "service_ekdc1xn",
-            "template_rmzvqlc",
+            "service_d869q6m",
+            "template_2pc3qfh",
             {
                 ...booking,
                 quotationAmount: amount
