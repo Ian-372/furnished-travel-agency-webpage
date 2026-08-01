@@ -4,10 +4,10 @@ import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 import {
     doc,
     getDoc,
+    setDoc,
     collection,
     query,
     where,
@@ -23,16 +23,43 @@ onAuthStateChanged(auth, async (user) => {
     }
     console.log("Current logged in UID:", user.uid);
 
-    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userRef = doc(db, "users", user.uid);
 
-    console.log("User document:", userDoc.data());
+    let userDoc = await getDoc(userRef);
 
-    if (userDoc.exists()) {
+    if (!userDoc.exists()) {
 
-        document.getElementById("customerName").textContent =
-            userDoc.data().name || "Customer";
+        const bookingQuery = query(
+            collection(db, "bookings"),
+            where("userId", "==", user.uid)
+        );
+
+        const bookingSnapshot = await getDocs(bookingQuery);
+
+        let customerName = "Customer";
+
+        if (!bookingSnapshot.empty) {
+
+            customerName =
+                bookingSnapshot.docs[0].data().fullName || "Customer";
+
+        }
+
+        await setDoc(userRef, {
+            name: customerName,
+            email: user.email,
+            phone: "",
+            country: "",
+            role: "customer",
+            createdAt: new Date()
+        });
+
+        userDoc = await getDoc(userRef);
 
     }
+
+    document.getElementById("customerName").textContent =
+        userDoc.data().name;
     const bookingsContainer =
         document.getElementById("bookingsContainer");
 
