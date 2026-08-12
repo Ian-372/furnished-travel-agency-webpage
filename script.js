@@ -191,25 +191,15 @@ const revealObserver =
 
         },
         {
-
-            threshold: 0.10
-
+            threshold: 0
         }
-
     );
 
 
 
 
 
-reveals.forEach((element, index) => {
-
-
-    element.style.transitionDelay =
-        `${index * 0.08}s`;
-
-
-
+reveals.forEach((element) => {
     revealObserver.observe(element);
 
 
