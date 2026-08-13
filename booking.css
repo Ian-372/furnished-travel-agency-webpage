@@ -5,23 +5,23 @@
 
 :root {
 
-    --forest: #14261c;
-    --forest-dark: #0b1711;
-    --forest-light: #20382a;
+    --forest: #062e1b;
+    --forest-dark: #050807;
+    --forest-light: #0b5a34;
 
-    --gold: #c8a45d;
-    --gold-light: #dfc27d;
+    --gold: #c9a227;
+    --gold-light: #e4c766;
 
-    --cream: #f5f1e8;
+    --cream: #f8f3e7;
     --white: #ffffff;
 
-    --text: #273129;
-    --muted: #737a72;
+    --text: #f8f3e7;
+    --muted: #d9d9d9;
 
-    --border: rgba(20, 38, 28, 0.12);
+    --border: rgba(201, 162, 39, 0.25);
 
     --shadow:
-        0 25px 70px rgba(11, 23, 17, 0.12);
+        0 25px 70px rgba(5, 8, 7, 0.28);
 
 }
 
@@ -56,9 +56,9 @@ body {
     background:
         linear-gradient(
             180deg,
-            #f8f5ed 0%,
-            #ffffff 50%,
-            #f5f1e8 100%
+            #050807 0%,
+            #0b1a13 45%,
+            #f8f3e7 100%
         );
 
     line-height: 1.7;
@@ -92,14 +92,20 @@ textarea {
 
 .booking-header {
 
-    position: absolute;
+    position: sticky;
 
     top: 0;
     left: 0;
 
     width: 100%;
 
-    z-index: 20;
+    z-index: 1000;
+
+    backdrop-filter: blur(20px);
+
+    background: rgba(5, 8, 7, 0.78);
+
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
 
 }
 
@@ -333,12 +339,14 @@ textarea {
 
     text-align: center;
 
+    color: var(--cream);
+
 }
 
 
 .booking-intro > span {
 
-    color: #9a7a39;
+    color: var(--gold-light);
 
     font-size: .7rem;
 
@@ -353,7 +361,7 @@ textarea {
 
     font-family: "Playfair Display", serif;
 
-    color: var(--forest);
+    color: var(--cream);
 
     font-size: clamp(2.2rem, 4vw, 3.5rem);
 
@@ -366,7 +374,7 @@ textarea {
 
 .booking-intro p {
 
-    color: var(--muted);
+    color: rgba(248,243,231,0.8);
 
     max-width: 680px;
 
@@ -395,9 +403,9 @@ textarea {
 
     margin: auto;
 
-    background: rgba(255,255,255,.88);
+    background: rgba(255,255,255,.04);
 
-    border: 1px solid rgba(20,38,28,.08);
+    border: 1px solid var(--border);
 
     box-shadow: var(--shadow);
 
@@ -524,7 +532,7 @@ textarea {
 
 .form-section-title h3 {
 
-    color: var(--forest);
+    color: var(--cream);
 
     font-family: "Playfair Display", serif;
 
@@ -537,7 +545,7 @@ textarea {
 
 .form-section-title p {
 
-    color: var(--muted);
+    color: rgba(248,243,231,0.72);
 
     font-size: .76rem;
 
@@ -579,7 +587,7 @@ textarea {
 
 .input-field label {
 
-    color: var(--forest);
+    color: var(--cream);
 
     font-size: .72rem;
 
@@ -605,11 +613,11 @@ textarea {
 
     width: 100%;
 
-    border: 1px solid rgba(20,38,28,.14);
+    border: 1px solid var(--border);
 
-    background: #fbfaf7;
+    background: rgba(255,255,255,0.04);
 
-    color: var(--text);
+    color: var(--cream);
 
     border-radius: 10px;
 
@@ -627,7 +635,7 @@ textarea {
 .input-field input::placeholder,
 .input-field textarea::placeholder {
 
-    color: #a4a8a3;
+    color: rgba(248,243,231,0.6);
 
 }
 
@@ -638,10 +646,10 @@ textarea {
 
     border-color: var(--gold);
 
-    background: white;
+    background: rgba(255,255,255,0.07);
 
     box-shadow:
-        0 0 0 3px rgba(200,164,93,.10);
+        0 0 0 3px rgba(201,162,39,.12);
 
 }
 
@@ -670,9 +678,9 @@ textarea {
 
     width: 100%;
 
-    border: 1px solid rgba(20,38,28,.14);
+    border: 1px solid var(--border);
 
-    background: #fbfaf7;
+    background: rgba(255,255,255,0.04);
 
     border-radius: 10px;
 
@@ -706,7 +714,7 @@ textarea {
 
 .dynamic-fields h3 {
 
-    color: var(--forest);
+    color: var(--cream);
 
     font-family: "Playfair Display", serif;
 
@@ -761,7 +769,7 @@ textarea {
 
 .booking-note p {
 
-    color: var(--muted);
+    color: rgba(248,243,231,0.72);
 
     font-size: .72rem;
 

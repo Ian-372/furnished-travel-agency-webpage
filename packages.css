@@ -5,21 +5,22 @@
 
 :root {
 
-    --dark: #101b16;
-    --dark-soft: #17251e;
-    --green: #263f32;
-    --gold: #c9a45c;
-    --gold-light: #e1c783;
+    --black: #050807;
+    --dark: #062e1b;
+    --dark-soft: #0b5a34;
+    --green: #0b5a34;
+    --gold: #c9a227;
+    --gold-light: #e4c766;
 
-    --cream: #f7f3eb;
+    --cream: #f8f3e7;
     --white: #ffffff;
-    --text: #26312b;
-    --muted: #6e776f;
+    --text: #f8f3e7;
+    --muted: #d9d9d9;
 
-    --border: rgba(16, 27, 22, 0.12);
+    --border: rgba(201, 162, 39, 0.25);
 
     --shadow:
-        0 20px 60px rgba(0, 0, 0, 0.10);
+        0 20px 60px rgba(0, 0, 0, 0.18);
 
     --transition:
         all 0.4s cubic-bezier(.22, .61, .36, 1);
@@ -45,7 +46,7 @@ html {
 body {
     font-family: "Montserrat", sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: linear-gradient(180deg, #050807 0%, #0b1a13 40%, #f8f3e7 100%);
     line-height: 1.7;
 }
 
@@ -73,18 +74,14 @@ a {
 ========================================================= */
 
 .package-header {
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 20;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.55),
-            transparent
-        );
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    background: rgba(5, 8, 7, 0.78);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
 }
 
 
@@ -303,6 +300,7 @@ a {
     padding: 110px 25px 80px;
 
     text-align: center;
+    color: var(--cream);
 }
 
 
@@ -324,7 +322,7 @@ a {
 
     font-family: "Playfair Display", serif;
 
-    color: var(--dark);
+    color: var(--cream);
 
     font-size: clamp(2.2rem, 4vw, 3.5rem);
 
@@ -337,7 +335,7 @@ a {
 
     margin: auto;
 
-    color: var(--muted);
+    color: rgba(248, 243, 231, 0.8);
 
     font-size: 0.95rem;
 }
@@ -418,7 +416,9 @@ a {
 
 
 .package-details {
-    background: white;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
 
     padding: clamp(40px, 5vw, 75px);
 
@@ -446,7 +446,7 @@ a {
 
 
 .package-details h2 {
-    color: var(--dark);
+    color: var(--cream);
 
     font-family: "Playfair Display", serif;
 
@@ -459,7 +459,7 @@ a {
 
 
 .package-description {
-    color: var(--muted);
+    color: rgba(248, 243, 231, 0.82);
 
     font-size: 0.9rem;
 
@@ -502,7 +502,7 @@ a {
 .package-meta strong {
     display: block;
 
-    color: var(--dark);
+    color: var(--cream);
 
     font-size: 0.83rem;
 
@@ -511,7 +511,7 @@ a {
 
 
 .package-meta span {
-    color: var(--muted);
+    color: rgba(248, 243, 231, 0.7);
 
     font-size: 0.7rem;
 }
@@ -522,7 +522,7 @@ a {
 ========================================================= */
 
 .package-details h3 {
-    color: var(--dark);
+    color: var(--light-gold);
 
     font-family: "Playfair Display", serif;
 
@@ -583,9 +583,9 @@ a {
 
     padding: 14px 24px;
 
-    background: var(--dark);
+    background: var(--gold);
 
-    color: white;
+    color: var(--black);
 
     font-size: 0.75rem;
 
@@ -596,9 +596,9 @@ a {
 
 
 .book-package:hover {
-    background: var(--gold);
+    background: var(--gold-light);
 
-    color: var(--dark);
+    color: var(--black);
 
     transform: translateY(-2px);
 }
@@ -613,9 +613,9 @@ a {
 
     padding: 13px 20px;
 
-    border: 1px solid #d8ddd8;
+    border: 1px solid rgba(228, 199, 102, 0.5);
 
-    color: var(--dark);
+    color: var(--cream);
 
     font-size: 0.75rem;
 
@@ -637,7 +637,7 @@ a {
 ========================================================= */
 
 .more-packages {
-    background: #eeeae1;
+    background: linear-gradient(180deg, #07170d 0%, #050807 100%);
 
     padding: 20px 5% 120px;
 }
@@ -663,7 +663,8 @@ a {
 
 
 .mini-package {
-    background: white;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
 
     overflow: hidden;
 
@@ -713,7 +714,7 @@ a {
 
 
 .mini-package h3 {
-    color: var(--dark);
+    color: var(--cream);
 
     font-family: "Playfair Display", serif;
 
@@ -724,7 +725,7 @@ a {
 
 
 .mini-package p {
-    color: var(--muted);
+    color: rgba(248, 243, 231, 0.8);
 
     font-size: 0.78rem;
 
@@ -739,7 +740,7 @@ a {
 .mini-package strong {
     display: block;
 
-    color: var(--dark);
+    color: var(--cream);
 
     font-size: 0.9rem;
 
@@ -750,7 +751,7 @@ a {
 .mini-package a {
     display: inline-block;
 
-    color: var(--green);
+    color: var(--gold-light);
 
     font-size: 0.72rem;
 
