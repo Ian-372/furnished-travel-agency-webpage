@@ -875,23 +875,20 @@ if (bookingForm) {
 
             catch (error) {
 
-                console.error(
-                    "Booking submission error:",
-                    error
-                );
+    console.error("========== BOOKING ERROR ==========");
+    console.error("Full error:", error);
+    console.error("Status:", error?.status);
+    console.error("Message:", error?.text);
+    console.error("===================================");
 
+    alert(
+        "Booking was saved, but the email notification failed.\n\n" +
+        (error?.text || "Please contact Little Monks Safaris.")
+    );
 
-                alert(
-                    "Booking failed. Please try again."
-                );
-
-
-                submitBtn.disabled = false;
-
-                submitBtn.textContent =
-                    "Book My Journey";
-
-            }
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Book My Journey";
+}
 
         }
     );
