@@ -61,7 +61,7 @@ NAVBAR
                     </a>
                 </li>
                 <li>
-                    <a href="#services">
+                    <a href="services.html">
                         Services
                     </a>
                 </li>
@@ -90,7 +90,7 @@ NAVBAR
                     </a>
                 </li>
             </ul>
-            <a href="#booking" class="nav-btn">
+            <a href="booking.html" class="nav-btn">
                 Book Now
             </a>
             <button class="menu-btn">
@@ -138,7 +138,7 @@ HERO SECTION
 
             <div class="hero-actions">
 
-                <a href="#booking" class="primary-btn">
+                <a href="booking.html" class="primary-btn">
                     Start Your Adventure
                 </a>
 
@@ -191,7 +191,7 @@ ABOUT SECTION
                     our professional team ensures every journey is safe,
                     comfortable and hassle-free.
                 </p>
-                <a href="#services" class="text-btn">
+                <a href="services.html" class="text-btn">
                     Explore Our Services →
                 </a>
             </div>
@@ -266,7 +266,7 @@ SERVICES SECTION
                         Reliable pickup and drop-off services
                         with professional drivers.
                     </p>
-                    <a href="#booking">
+                    <a href="booking.html">
                         Book Now →
                     </a>
                 </div>
@@ -283,7 +283,7 @@ SERVICES SECTION
                         Comfortable transportation between
                         hotels, airports and destinations.
                     </p>
-                    <a href="#booking">
+                    <a href="booking.html">
                         Book Now →
                     </a>
                 </div>
@@ -300,7 +300,7 @@ SERVICES SECTION
                         Explore Kenya's wildlife destinations
                         with unforgettable safari experiences.
                     </p>
-                    <a href="#packages">
+                    <a href="packages.html">
                         Explore →
                     </a>
                 </div>
@@ -318,7 +318,7 @@ SERVICES SECTION
                         Discover hidden gems and beautiful
                         locations around Kenya.
                     </p>
-                    <a href="#destinations">
+                    <a href="booking.html">
                         Discover →
                     </a>
                 </div>
@@ -336,7 +336,7 @@ SERVICES SECTION
                         Professional travel solutions
                         for companies and executives.
                     </p>
-                    <a href="#booking">
+                    <a href="booking.html">
                         Book Now →
                     </a>
                 </div>
@@ -355,7 +355,7 @@ SERVICES SECTION
                         Personalized journeys designed
                         according to your plans.
                     </p>
-                    <a href="#booking">
+                    <a href="booking.html">
                         Create Trip →
                     </a>
                 </div>
@@ -619,7 +619,7 @@ FLEET SECTION
                     </ul>
 
 
-                    <a href="#booking">
+                    <a href="booking.html">
                         Reserve Vehicle →
                     </a>
 
@@ -660,7 +660,7 @@ FLEET SECTION
 
                     </ul>
 
-                    <a href="#booking">
+                    <a href="booking.html">
                         Reserve Vehicle →
                     </a>
                 </div>
@@ -688,7 +688,7 @@ FLEET SECTION
                             ✓ Professional service
                         </li>
                     </ul>
-                    <a href="#booking">
+                    <a href="booking.html">
                         Reserve Vehicle →
                     </a>
                 </div>
@@ -868,124 +868,7 @@ TESTIMONIALS
             </div>
         </div>
     </section>
-    <!-- ===============================
-BOOKING SECTION
-================================ -->
-    <section class="booking section" id="booking">
-        <div class="section-title reveal">
-            <span>BOOK YOUR JOURNEY</span>
-            <h2>Start Planning Your Adventure</h2>
-            <p>
-                Fill in your travel details and we'll prepare a personalized journey for you.
-            </p>
-        </div>
-        <form class="booking-form reveal" id="bookingForm">
-            <!-- Personal Information -->
-            <div class="input-group">
-                <input type="text" id="fullName" placeholder="Full Name" required>
-                <input type="email" id="email" placeholder="Email Address" required>
-            </div>
-            <div class="input-group">
-                <div class="phone-group">
-                    <select id="countryCode">
-                        <option value="+254">🇰🇪 Kenya (+254)</option>
-                        <option value="+256">🇺🇬 Uganda (+256)</option>
-                        <option value="+255">🇹🇿 Tanzania (+255)</option>
-                        <option value="+1">🇺🇸 USA (+1)</option>
-                        <option value="+44">🇬🇧 UK (+44)</option>
-
-                    </select>
-                    <input type="tel" id="phone" placeholder="712345678" required>
-                </div> <select id="service" required>
-                    <option value="">
-                        Select Service
-                    </option>
-                    <option>Safari Package</option>
-                    <option>Airport Transfer</option>
-                    <option>Hotel Transfer</option>
-                    <option>Day Trip</option>
-                    <option>Corporate Transport</option>
-                    <option>Custom Tour</option>
-                </select>
-            </div>
-            <div class="input-group">
-
-                <input type="number" id="passengers" placeholder="Number of Passengers" min="1" value="1" required>
-            </div>
-            <div class="input-group">
-                <select id="vehicleReservation">
-                    <option value="">
-                        Vehicle Reservation (Optional)
-                    </option>
-                    <option>Safari Land Cruiser</option>
-                    <option>Safari Vans</option>
-                    <option>Executive Transport</option>
-                </select>
-            </div>
-
-            <!-- Destination -->
-            <div class="input-group destination-group">
-                <select id="destination" required>
-                    <option value="">Select Destination</option>
-                    <option>Maasai Mara</option>
-                    <option>Amboseli</option>
-                    <option>Tsavo East</option>
-                    <option>Tsavo West</option>
-                    <option>Samburu</option>
-                    <option>Lake Nakuru</option>
-                    <option>Hell's Gate</option>
-                    <option>Diani</option>
-                    <option>Naivasha</option>
-                    <option>Nairobi National Park</option>
-                    <option value="other">Other Destination</option>
-                </select>
-
-                <input type="text" id="otherDestination" placeholder="Enter your destination" style="display:none;">
-            </div>
-            <!-- Dates -->
-            <div class="input-group">
-
-                <div class="date-field">
-                    <label for="travelDate">Travel Date</label>
-                    <input type="date" id="travelDate" required>
-                </div>
-
-                <div class="date-field">
-                    <label for="returnDate">Return Date</label>
-                    <input type="date" id="returnDate">
-                </div>
-            </div>
-            <!-- Pickup -->
-            <div class="input-group">
-                <input type="text" id="pickup" placeholder="Pickup Location">
-                <input type="text" id="dropoff" placeholder="Drop-off Location">
-            </div>
-            <!-- Payment -->
-            <div class="input-group">
-                <select id="paymentMethod" required>
-                    <option value="">
-                        Preferred Payment
-                    </option>
-                    <option>M-Pesa</option>
-                    <option>PayPal</option>
-                </select>
-                <input type="text" id="promoCode" placeholder="Promo Code (Optional)">
-
-            </div>
-            <!-- Notes -->
-            <div id="dynamicFields">
-
-                <!-- VEHICLE OPTIONS-->
-            </div>
-            <textarea id="specialRequests"
-                placeholder="Special requests, dietary requirements, child seat, wheelchair access, etc."></textarea>
-
-            <button type="button" id="bookJourneyBtn" class="primary-btn">
-                Book My Journey
-            </button>
-        </form>
-
-    </section>
+    
     <!-- ===============================
 PAYMENT SECTION
 ================================ -->

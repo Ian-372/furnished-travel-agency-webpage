@@ -1,0 +1,816 @@
+/* =========================================
+LITTLE MONKS SAFARIS
+SERVICES PAGE
+========================================= */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #f7f5ef;
+    color: #1d241e;
+    line-height: 1.7;
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+img {
+    display: block;
+    width: 100%;
+}
+
+
+/* =========================================
+NAVIGATION
+========================================= */
+
+.services-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    color: #ffffff;
+}
+
+
+.services-nav {
+    width: min(1400px, 92%);
+    margin: auto;
+    padding: 25px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.services-logo {
+    font-family: "Playfair Display", serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+
+.services-logo span {
+    display: block;
+    font-size: .75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: -5px;
+}
+
+
+.services-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.services-links a {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+}
+
+
+.services-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 1px;
+    background: #ffffff;
+    transition: .3s ease;
+}
+
+
+.services-links a:hover::after {
+    width: 100%;
+}
+
+
+.services-nav-btn {
+    padding: 12px 22px;
+    border: 1px solid rgba(255, 255, 255, .6);
+    font-size: .75rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: .3s ease;
+}
+
+
+.services-nav-btn:hover {
+    background: #ffffff;
+    color: #1d241e;
+}
+
+
+.services-menu-btn {
+    display: none;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+
+/* =========================================
+HERO
+========================================= */
+
+.services-hero {
+    min-height: 88vh;
+
+    background:
+        url("https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=2200&q=90") center / cover no-repeat;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    color: #ffffff;
+}
+
+
+.services-hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(to bottom,
+            rgba(7, 15, 10, .68),
+            rgba(7, 15, 10, .38),
+            rgba(7, 15, 10, .72));
+}
+
+
+.services-hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(850px, 90%);
+}
+
+
+.services-hero-content span {
+    font-size: .75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+
+.services-hero-content h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(3.2rem, 7vw, 6rem);
+    line-height: 1.05;
+    margin: 22px 0;
+    font-weight: 500;
+}
+
+
+.services-hero-content p {
+    max-width: 650px;
+    margin: auto;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 35px;
+
+    padding: 15px 28px;
+
+    border: 1px solid rgba(255, 255, 255, .7);
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: .72rem;
+
+    transition: .3s ease;
+}
+
+
+.hero-btn:hover {
+    background: #ffffff;
+    color: #1d241e;
+}
+
+
+/* =========================================
+INTRO
+========================================= */
+
+.services-intro {
+    padding: 120px 8%;
+    text-align: center;
+}
+
+
+.services-intro-inner {
+    max-width: 850px;
+    margin: auto;
+}
+
+
+.services-intro span,
+.benefits-heading span,
+.services-cta-content span {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+
+.services-intro h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 1.15;
+    font-weight: 500;
+    margin: 18px 0 25px;
+}
+
+
+.services-intro p {
+    color: #687067;
+    font-size: .95rem;
+}
+
+
+/* =========================================
+SERVICES
+========================================= */
+
+.services-list {
+    width: min(1450px, 94%);
+    margin: auto;
+}
+
+
+.service-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 650px;
+    margin-bottom: 90px;
+
+    background: #ffffff;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .06);
+}
+
+
+.service-detail.reverse .service-detail-image {
+    order: 2;
+}
+
+
+.service-detail.reverse .service-detail-content {
+    order: 1;
+}
+
+
+.service-detail-image {
+    position: relative;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+
+.service-detail-image img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s ease;
+}
+
+
+.service-detail:hover .service-detail-image img {
+    transform: scale(1.04);
+}
+
+
+.service-number {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, .9);
+
+    font-family: "Playfair Display", serif;
+    font-size: 1.1rem;
+}
+
+
+.service-detail-content {
+    padding: 75px 65px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.service-label {
+    font-size: .68rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7d887e;
+}
+
+
+.service-detail-content h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    font-weight: 500;
+    line-height: 1.1;
+    margin: 15px 0 25px;
+}
+
+
+.service-detail-content>p {
+    color: #667067;
+    max-width: 600px;
+    font-size: .92rem;
+}
+
+
+.service-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 17px 25px;
+
+    margin: 35px 0;
+}
+
+
+.service-features div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: .78rem;
+    color: #4f5951;
+}
+
+
+.service-features i {
+    width: 20px;
+    color: #77836f;
+}
+
+
+.service-btn,
+.secondary-service-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: fit-content;
+
+    padding: 14px 24px;
+
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-size: .7rem;
+
+    transition: .3s ease;
+}
+
+
+.service-btn {
+    background: #263228;
+    color: #ffffff;
+}
+
+
+.service-btn:hover {
+    background: #151c17;
+    transform: translateY(-2px);
+}
+
+
+.secondary-service-btn {
+    border: 1px solid #263228;
+}
+
+
+.secondary-service-btn:hover {
+    background: #263228;
+    color: #ffffff;
+}
+
+
+.service-action-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+
+/* =========================================
+BENEFITS
+========================================= */
+
+.service-benefits {
+    padding: 130px 7%;
+    background: #e9e7dd;
+}
+
+
+.benefits-heading {
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+}
+
+
+.benefits-heading h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.15;
+    font-weight: 500;
+    margin-top: 18px;
+}
+
+
+.benefits-grid {
+    max-width: 1200px;
+    margin: 70px auto 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+.benefit-card {
+    padding: 40px 30px;
+    text-align: center;
+
+    border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+
+.benefit-card:last-child {
+    border-right: none;
+}
+
+
+.benefit-card i {
+    font-size: 1.5rem;
+    margin-bottom: 22px;
+}
+
+
+.benefit-card h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+
+.benefit-card p {
+    color: #687067;
+    font-size: .8rem;
+}
+
+
+/* =========================================
+CTA
+========================================= */
+
+.services-cta {
+    min-height: 550px;
+
+    position: relative;
+
+    background:
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=85") center / cover no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    color: #ffffff;
+}
+
+
+.services-cta-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(12, 22, 15, .62);
+}
+
+
+.services-cta-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(750px, 90%);
+}
+
+
+.services-cta-content h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.7rem, 5vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    margin: 18px 0;
+}
+
+
+.services-cta-content p {
+    font-weight: 300;
+}
+
+
+.services-cta-content a {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+
+    margin-top: 30px;
+
+    padding: 15px 28px;
+
+    background: #ffffff;
+    color: #1d241e;
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: .7rem;
+
+    transition: .3s ease;
+}
+
+
+.services-cta-content a:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================
+FOOTER
+========================================= */
+
+.services-footer {
+    background: #182019;
+    color: #ffffff;
+    text-align: center;
+
+    padding: 75px 20px 35px;
+}
+
+
+.services-footer h2 {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+
+.services-footer>p {
+    color: #aab2aa;
+    margin-top: 8px;
+    font-size: .85rem;
+}
+
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+
+.footer-links a {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+
+.footer-links a:hover {
+    opacity: .6;
+}
+
+
+.services-footer .copyright {
+    margin-top: 40px;
+    font-size: .65rem;
+    color: #737c74;
+}
+
+
+/* =========================================
+REVEAL ANIMATION
+========================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================
+RESPONSIVE
+========================================= */
+.services-links.mobile-open {
+    display: flex;
+    position: absolute;
+    top: 80px;
+    left: 4%;
+    right: 4%;
+
+    padding: 25px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    background: rgba(20, 28, 22, .97);
+}
+
+@media (max-width: 1000px) {
+
+    .services-links {
+        display: none;
+    }
+
+
+    .services-nav-btn {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+
+
+    .services-menu-btn {
+        display: block;
+    }
+
+
+    .service-detail {
+        grid-template-columns: 1fr;
+    }
+
+
+    .service-detail.reverse .service-detail-image {
+        order: 1;
+    }
+
+
+    .service-detail.reverse .service-detail-content {
+        order: 2;
+    }
+
+
+    .service-detail-image {
+        min-height: 450px;
+    }
+
+
+    .benefits-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .benefit-card:nth-child(2) {
+        border-right: none;
+    }
+
+
+    .benefit-card {
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .services-nav {
+        padding: 18px 0;
+    }
+
+
+    .services-logo {
+        font-size: 1.35rem;
+    }
+
+
+    .services-nav-btn {
+        display: none;
+    }
+
+
+    .services-hero {
+        min-height: 80vh;
+    }
+
+
+    .services-hero-content h1 {
+        font-size: 3rem;
+    }
+
+
+    .services-intro {
+        padding: 80px 7%;
+    }
+
+
+    .service-detail {
+        margin-bottom: 50px;
+    }
+
+
+    .service-detail-image {
+        min-height: 330px;
+    }
+
+
+    .service-detail-content {
+        padding: 50px 28px;
+    }
+
+
+    .service-features {
+        grid-template-columns: 1fr;
+    }
+
+
+    .service-benefits {
+        padding: 85px 6%;
+    }
+
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .benefit-card,
+    .benefit-card:nth-child(2) {
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+
+
+    .benefit-card:last-child {
+        border-bottom: none;
+    }
+
+
+    .footer-links {
+        flex-wrap: wrap;
+    }
+
+}

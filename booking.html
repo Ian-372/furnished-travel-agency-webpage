@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Book Your Journey | Little Monks Safaris</title>
+
+    <meta
+        name="description"
+        content="Book your safari, transfer, day trip, vehicle reservation or custom journey with Little Monks Safaris."
+    >
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Booking CSS -->
+    <link rel="stylesheet" href="booking.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+NAVIGATION
+===================================================== -->
+
+<header class="booking-header">
+
+    <nav class="booking-nav">
+
+        <a href="index.html" class="booking-logo">
+
+            Little Monks
+            <span>Safaris</span>
+
+        </a>
+
+
+        <div class="booking-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="packages.html">
+                Packages
+            </a>
+
+            <a href="services.html">
+                Services
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+        </div>
+
+
+       
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+HERO
+===================================================== -->
+
+<section class="booking-hero">
+
+    <div class="booking-hero-overlay"></div>
+
+    <div class="booking-hero-content">
+
+        <span>
+            LITTLE MONKS SAFARIS
+        </span>
+
+        <h1>
+            Start Your
+            <br>
+            Kenyan Journey
+        </h1>
+
+        <p>
+            Tell us how you want to experience Kenya.
+            We'll take care of the details and prepare
+            a personalized journey around you.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+BOOKING INTRO
+===================================================== -->
+
+<section class="booking-intro">
+
+    <span>
+        PLAN YOUR EXPERIENCE
+    </span>
+
+    <h2>
+        Your Journey Starts Here
+    </h2>
+
+    <p>
+        Complete the form below with your travel details.
+        Once we receive your request, our team will review
+        your requirements and prepare a personalized
+        quotation for you.
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+BOOKING FORM
+===================================================== -->
+
+<main class="booking-main">
+
+    <div class="booking-form-wrapper">
+
+
+        <div class="form-heading">
+
+            <span>
+                STEP INTO THE WILD
+            </span>
+
+            <h2>
+                Tell Us About Your Journey
+            </h2>
+
+            <p>
+                The more details you provide, the better we can
+                tailor your experience.
+            </p>
+
+        </div>
+
+
+
+        <form
+            class="booking-form"
+            id="bookingForm"
+        >
+
+
+            <!-- =================================================
+            PERSONAL INFORMATION
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>01</span>
+
+                    <div>
+                        <h3>Personal Information</h3>
+                        <p>Tell us who we're planning this journey for.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="input-field">
+
+                        <label for="fullName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-field">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="input-field">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <div class="phone-group">
+
+                            <select id="countryCode">
+
+                                <option value="+254">
+                                    🇰🇪 Kenya (+254)
+                                </option>
+
+                                <option value="+256">
+                                    🇺🇬 Uganda (+256)
+                                </option>
+
+                                <option value="+255">
+                                    🇹🇿 Tanzania (+255)
+                                </option>
+
+                                <option value="+1">
+                                    🇺🇸 USA (+1)
+                                </option>
+
+                                <option value="+44">
+                                    🇬🇧 UK (+44)
+                                </option>
+
+                            </select>
+
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                placeholder="712345678"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-field">
+
+                        <label for="passengers">
+                            Number of Passengers
+                        </label>
+
+                        <input
+                            type="number"
+                            id="passengers"
+                            placeholder="Number of passengers"
+                            min="1"
+                            value="1"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            SERVICE
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>02</span>
+
+                    <div>
+                        <h3>Choose Your Experience</h3>
+
+                        <p>
+                            Select the service you'd like us to arrange.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-field full-width">
+
+                    <label for="service">
+                        Service
+                    </label>
+
+                    <select id="service" required>
+
+                        <option value="">
+                            Select the experience you want
+                        </option>
+
+                        <option>
+                            Safari Package
+                        </option>
+
+                        <option>
+                            Airport Transfer
+                        </option>
+
+                        <option>
+                            Hotel Transfer
+                        </option>
+
+                        <option>
+                            Day Trip
+                        </option>
+
+                        <option>
+                            Corporate Transport
+                        </option>
+
+                        <option>
+                            Vehicle Reservation
+                        </option>
+
+                        <option>
+                            Custom Tour
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Dynamic fields generated by booking.js -->
+
+                <div
+                    id="dynamicFields"
+                    class="dynamic-fields"
+                ></div>
+
+
+                <!-- Existing vehicle reservation option -->
+
+                <div class="input-field full-width">
+
+                    <label for="vehicleReservation">
+                        Vehicle Reservation
+                        <span>(Optional)</span>
+                    </label>
+
+                    <select id="vehicleReservation">
+
+                        <option value="">
+                            No additional vehicle reservation
+                        </option>
+
+                        <option>
+                            Safari Land Cruiser
+                        </option>
+
+                        <option>
+                            Safari Vans
+                        </option>
+
+                        <option>
+                            Executive Transport
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            DESTINATION
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>03</span>
+
+                    <div>
+
+                        <h3>
+                            Destination & Dates
+                        </h3>
+
+                        <p>
+                            Where and when would you like to travel?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-field full-width">
+
+                    <label for="destination">
+                        Destination
+                    </label>
+
+                    <select id="destination" required>
+
+                        <option value="">
+                            Select Destination
+                        </option>
+
+                        <option>
+                            Maasai Mara
+                        </option>
+
+                        <option>
+                            Amboseli
+                        </option>
+
+                        <option>
+                            Tsavo East
+                        </option>
+
+                        <option>
+                            Tsavo West
+                        </option>
+
+                        <option>
+                            Samburu
+                        </option>
+
+                        <option>
+                            Lake Nakuru
+                        </option>
+
+                        <option>
+                            Hell's Gate
+                        </option>
+
+                        <option>
+                            Diani
+                        </option>
+
+                        <option>
+                            Naivasha
+                        </option>
+
+                        <option>
+                            Nairobi National Park
+                        </option>
+
+                        <option value="other">
+                            Other Destination
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    class="input-field full-width"
+                    id="otherDestinationWrapper"
+                    style="display:none;"
+                >
+
+                    <label for="otherDestination">
+                        Your Destination
+                    </label>
+
+                    <input
+                        type="text"
+                        id="otherDestination"
+                        placeholder="Enter your destination"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="input-field">
+
+                        <label for="travelDate">
+                            Travel Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="travelDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-field">
+
+                        <label for="returnDate">
+                            Return Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="returnDate"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            PICKUP / DROPOFF
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>04</span>
+
+                    <div>
+
+                        <h3>
+                            Transport Details
+                        </h3>
+
+                        <p>
+                            Let us know where your journey begins.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="input-field">
+
+                        <label for="pickup">
+                            Pickup Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pickup"
+                            placeholder="Hotel, airport or location"
+                        >
+
+                    </div>
+
+
+                    <div class="input-field">
+
+                        <label for="dropoff">
+                            Drop-off Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="dropoff"
+                            placeholder="Destination or location"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            PAYMENT
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>05</span>
+
+                    <div>
+
+                        <h3>
+                            Payment Preference
+                        </h3>
+
+                        <p>
+                            Choose your preferred payment method.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="input-field">
+
+                        <label for="paymentMethod">
+                            Preferred Payment
+                        </label>
+
+                        <select
+                            id="paymentMethod"
+                            required
+                        >
+
+                            <option value="">
+                                Select payment method
+                            </option>
+
+                            <option>
+                                M-Pesa
+                            </option>
+
+                            <option>
+                                PayPal
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-field">
+
+                        <label for="promoCode">
+                            Promo Code
+                            <span>(Optional)</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="promoCode"
+                            placeholder="Enter promo code"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            SPECIAL REQUESTS
+            ================================================= -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <span>06</span>
+
+                    <div>
+
+                        <h3>
+                            Special Requests
+                        </h3>
+
+                        <p>
+                            Anything else you'd like us to know?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-field full-width">
+
+                    <textarea
+                        id="specialRequests"
+                        placeholder="Dietary requirements, child seat, wheelchair access, special occasions, preferred activities, or anything else..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+            SUBMIT
+            ================================================= -->
+
+            <div class="booking-submit">
+
+                <div class="booking-note">
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                    <p>
+                        Your request will be reviewed by our team.
+                        We'll contact you with a personalized quotation.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="bookJourneyBtn"
+                    class="booking-submit-btn"
+                >
+
+                    <span>
+                        Book My Journey
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+CUSTOM JOURNEY
+===================================================== -->
+
+<section class="booking-custom">
+
+    <div class="booking-custom-overlay"></div>
+
+    <div class="booking-custom-content">
+
+        <span>
+            STILL NOT SURE?
+        </span>
+
+        <h2>
+            Let Us Design
+            Your Journey
+        </h2>
+
+        <p>
+            Tell us what you have in mind and our team will
+            create an experience around your interests,
+            schedule and budget.
+        </p>
+
+        <a href="services.html">
+            Explore Our Services
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer class="booking-footer">
+
+    <h2>
+        Little Monks Safaris
+    </h2>
+
+    <p>
+        Beyond The Roads, Into The Memories.
+    </p>
+
+
+    <div class="footer-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="packages.html">
+            Packages
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <p class="copyright">
+        © 2026 Little Monks Safaris. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+SCRIPTS
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+</script>
+
+<script
+    type="module"
+    src="js/booking.js"
+></script>
+
+<script
+    src="js/booking-form.js"
+></script>
+
+
+</body>
+
+</html>
