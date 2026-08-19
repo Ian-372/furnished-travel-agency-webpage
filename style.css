@@ -2813,3 +2813,260 @@ CONTACT
         transform: rotate(360deg);
     }
 }
+
+/* =================================
+   LEGAL / INFORMATION PAGES
+================================= */
+
+.page-hero {
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 20px 70px;
+}
+
+.page-hero-content {
+    max-width: 850px;
+    margin: auto;
+}
+
+.page-hero-content span {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    opacity: 0.75;
+}
+
+.page-hero-content h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: 20px;
+}
+
+.page-hero-content p {
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.8;
+    opacity: 0.8;
+}
+
+
+/* =================================
+   LEGAL CONTENT
+================================= */
+
+.legal-page {
+    padding: 80px 20px;
+}
+
+.legal-container {
+    width: min(100%, 900px);
+    margin: auto;
+}
+
+.legal-intro {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin-bottom: 55px;
+    opacity: 0.85;
+}
+
+.legal-section {
+    margin-bottom: 45px;
+}
+
+.legal-section h2 {
+    font-size: 1.45rem;
+    margin-bottom: 15px;
+}
+
+.legal-section p {
+    line-height: 1.9;
+    margin-bottom: 14px;
+    opacity: 0.82;
+}
+
+.legal-update {
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    opacity: 0.7;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.footer-links a {
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 700px) {
+
+    .page-hero {
+        min-height: 40vh;
+        padding-top: 110px;
+    }
+
+    .legal-page {
+        padding: 55px 18px;
+    }
+
+    .legal-section h2 {
+        font-size: 1.25rem;
+    }
+
+    .legal-section p {
+        font-size: 0.95rem;
+    }
+
+}
+
+.legal-section ul {
+    margin: 15px 0 20px 25px;
+    padding: 0;
+}
+
+.legal-section li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+    opacity: 0.82;
+}
+
+/* =========================================
+   COOKIE CONSENT
+========================================= */
+
+.cookie-consent {
+    position: fixed;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    z-index: 99999;
+
+    background: rgba(17, 23, 20, 0.97);
+    color: #fff;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+
+    padding: 22px 26px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+
+    transform: translateY(130%);
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        transform 0.45s ease,
+        opacity 0.45s ease,
+        visibility 0.45s ease;
+}
+
+.cookie-consent.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.cookie-content {
+    max-width: 1200px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.cookie-content h3 {
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+}
+
+.cookie-content p {
+    max-width: 750px;
+    margin: 0;
+
+    font-size: 0.85rem;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.cookie-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 18px;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+.cookie-btn.primary {
+    background: #c5a46d;
+    color: #111714;
+}
+
+.cookie-btn.secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.cookie-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .cookie-consent {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 20px;
+    }
+
+    .cookie-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+    }
+
+    .cookie-actions {
+        width: 100%;
+    }
+
+    .cookie-btn {
+        flex: 1;
+    }
+}
