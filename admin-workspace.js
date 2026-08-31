@@ -1,4 +1,5 @@
 import { auth, db } from "./js/firebase-config.js";
+import { ADMIN_EMAIL } from "./js/admin-config.js";
 import {
     collection,
     doc,
@@ -14,7 +15,6 @@ import {
     updatePassword
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const ADMIN_EMAIL = "littlemonksltd@gmail.com";
 const STATUS_OPTIONS = ["Pending Quote", "Quoted", "Confirmed", "Completed", "Cancelled"];
 const state = { bookings: [], filter: "all", destinationChart: null, serviceChart: null };
 const element = (id) => document.getElementById(id);

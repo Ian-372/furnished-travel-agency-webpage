@@ -8,6 +8,18 @@ import {
 
 console.log("Booking module loaded");
 
+function savePendingBooking() {
+    const data = {};
+
+    bookingForm.querySelectorAll("input[id], select[id], textarea[id]")
+        .forEach((field) => {
+            data[field.id] = field.value;
+        });
+
+    sessionStorage.setItem("pendingBooking", JSON.stringify(data));
+    sessionStorage.setItem("redirectAfterLogin", "booking.html");
+}
+
 
 // =====================================================
 // BOOKING PAGE INITIALIZATION
@@ -20,19 +32,20 @@ window.addEventListener("DOMContentLoaded", () => {
     // =================================================
 
     const savedBooking = sessionStorage.getItem("pendingBooking");
+    let restoredBooking = null;
 
     if (savedBooking) {
 
         try {
 
-            const data = JSON.parse(savedBooking);
+            restoredBooking = JSON.parse(savedBooking);
 
-            Object.keys(data).forEach((key) => {
+            Object.keys(restoredBooking).forEach((key) => {
 
                 const field = document.getElementById(key);
 
                 if (field) {
-                    field.value = data[key];
+                    field.value = restoredBooking[key];
                 }
 
             });
@@ -359,6 +372,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    if (restoredBooking) {
+        destination?.dispatchEvent(new Event("change"));
+        service?.dispatchEvent(new Event("change"));
+
+        Object.entries(restoredBooking).forEach(([id, value]) => {
+            const field = document.getElementById(id);
+            if (field) field.value = value;
+        });
+    }
+
 });
 
 
@@ -397,24 +420,7 @@ if (bookJourneyBtn) {
 
         if (!user) {
 
-            // Save current form information
-            const formData =
-                Object.fromEntries(
-                    new FormData(bookingForm)
-                );
-
-
-            sessionStorage.setItem(
-                "pendingBooking",
-                JSON.stringify(formData)
-            );
-
-
-            // Return to the NEW booking page
-            sessionStorage.setItem(
-                "redirectAfterLogin",
-                "booking.html"
-            );
+            savePendingBooking();
 
 
             window.location.href =
@@ -528,22 +534,7 @@ if (bookingForm) {
 
             if (!user) {
 
-                const formData =
-                    Object.fromEntries(
-                        new FormData(bookingForm)
-                    );
-
-
-                sessionStorage.setItem(
-                    "pendingBooking",
-                    JSON.stringify(formData)
-                );
-
-
-                sessionStorage.setItem(
-                    "redirectAfterLogin",
-                    "booking.html"
-                );
+                savePendingBooking();
 
 
                 window.location.href =

@@ -1,4 +1,5 @@
 import { auth, db } from "./firebase-config.js";
+import { isAdminEmail } from "./admin-config.js";
 import {
 
     createUserWithEmailAndPassword,
@@ -115,18 +116,25 @@ if (signupPassword && confirmPassword) {
 // SIGN UP
 const signupBtn =
     document.getElementById("signupBtn");
-if (signupBtn) {
-    signupBtn.addEventListener(
-        "click",
-        async () => {
+const signupForm = document.getElementById("signupForm");
+
+async function signUp(event) {
+            event?.preventDefault();
             const name =
-                document.getElementById("name").value;
+                document.getElementById("name").value.trim();
             const email =
-                document.getElementById("email").value;
+                document.getElementById("email").value.trim();
             const password =
                 document.getElementById("password").value;
             const confirm =
                 document.getElementById("confirmPassword").value;
+            if (!name || !email) {
+
+                alert("Enter your full name and email address.");
+
+                return;
+            }
+
             if (password !== confirm) {
 
                 alert("Passwords do not match.");
@@ -149,6 +157,7 @@ ${passwordErrors.join("\n")}`
 
             }
             try {
+                signupBtn.disabled = true;
                 const userCredential =
                     await createUserWithEmailAndPassword(
                         auth,
@@ -164,7 +173,7 @@ ${passwordErrors.join("\n")}`
                         email: email,
                         phone: "",
                         country: "",
-                        role: "customer",
+                        role: isAdminEmail(email) ? "admin" : "customer",
                         createdAt: new Date()
                     }
                 );
@@ -181,7 +190,15 @@ ${passwordErrors.join("\n")}`
             catch (error) {
                 alert(error.message);
             }
-        });
+            finally {
+                signupBtn.disabled = false;
+            }
+}
+
+if (signupForm) {
+    signupForm.addEventListener("submit", signUp);
+} else if (signupBtn) {
+    signupBtn.addEventListener("click", signUp);
 }
 
 
@@ -189,7 +206,11 @@ ${passwordErrors.join("\n")}`
 // LOGIN
 const loginBtn =
     document.getElementById("loginBtn");
-if (loginBtn) {
+const loginForm = document.getElementById("loginForm");
+
+async function logIn(event) {
+
+            event?.preventDefault();
 
 
     loginBtn.addEventListener(
@@ -207,6 +228,8 @@ if (loginBtn) {
 
 
             try {
+
+                loginBtn.disabled = true;
 
 
                 await signInWithEmailAndPassword(
@@ -247,12 +270,15 @@ if (loginBtn) {
                 alert(error.message);
 
             }
+            finally {
+                loginBtn.disabled = false;
+            }
+}
 
-
-
-        });
-
-
+if (loginForm) {
+    loginForm.addEventListener("submit", logIn);
+} else if (loginBtn) {
+    loginBtn.addEventListener("click", logIn);
 }
 
 

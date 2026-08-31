@@ -5,22 +5,27 @@
 <link rel="stylesheet" href="auth.css">
 </head>
 <body>
-<div class="auth-container">
+<form id="signupForm" class="auth-container">
 <h1>
 Create Your Safari Account
 </h1>
 <input 
 id="name"
+name="name"
 type="text"
-placeholder="Full Name">
+placeholder="Full Name"
+required>
 <input 
 id="email"
+name="email"
 type="email"
-placeholder="Email Address">
+placeholder="Email Address"
+required>
 <div class="password-field">
     <input
         type="password"
         id="password"
+        name="password"
         placeholder="Create Password">
     <span
         class="toggle-password"
@@ -32,6 +37,7 @@ placeholder="Email Address">
     <input
         type="password"
         id="confirmPassword"
+        name="confirmPassword"
         placeholder="Confirm Password">
     <span
         class="toggle-password"
@@ -44,7 +50,7 @@ placeholder="Email Address">
     Password strength : -
 
 </div>
-<button id="signupBtn">
+<button id="signupBtn" type="submit">
 Create Account
 </button>
 <p>
@@ -53,7 +59,7 @@ Already have an account?
 Login
 </a>
 </p>
-</div>
+</form>
 <script type="module" src="js/auth.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 import { auth } from "./js/firebase-config.js";
+import { ADMIN_EMAIL, isAdminEmail } from "./js/admin-config.js";
 
 import {
     signInWithEmailAndPassword,
@@ -6,10 +7,6 @@ import {
     sendPasswordResetEmail,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-const ADMIN_EMAIL = "littlemonksltd@gmail.com";
-const isAdminEmail = (email) =>
-    email?.trim().toLowerCase() === ADMIN_EMAIL;
 
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");

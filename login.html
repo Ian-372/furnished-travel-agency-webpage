@@ -13,7 +13,7 @@
 <body>
 
 
-<div class="auth-container">
+<form id="loginForm" class="auth-container">
 
 
 <h1>
@@ -24,17 +24,21 @@ Welcome Back
 
 <input 
 id="loginEmail"
+name="email"
 type="email"
-placeholder="Email">
+placeholder="Email"
+required>
 
 
 <input 
 id="loginPassword"
+name="password"
 type="password"
-placeholder="Password">
+placeholder="Password"
+required>
 
 
-<button id="loginBtn">
+<button id="loginBtn" type="submit">
 
 Login
 
@@ -54,7 +58,7 @@ Create Account
 
 
 
-</div>
+</form>
 
 
 
