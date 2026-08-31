@@ -11,8 +11,204 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const bookingsContainer = document.getElementById("bookingsContainer");
+const summaryFilters = document.querySelectorAll(".summary-item[data-filter]");
+let activeBookingFilter = "all";
+let liveBookingDocs = [];
+
+function formatTravelDate(value) {
+    if (!value) return "Date to be confirmed";
+
+    const date = new Date(`${value}T00:00:00`);
+
+    if (Number.isNaN(date.getTime())) return value;
+
+    return new Intl.DateTimeFormat("en-KE", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    }).format(date);
+}
+
+function getBookingState(booking) {
+    const paymentStatus = booking.payment?.status?.toLowerCase();
+
+    if (paymentStatus === "paid") {
+        return { label: "Payment received", className: "is-paid", stage: 3 };
+    }
+
+    if (booking.quotation?.sent) {
+        return { label: "Quotation ready", className: "", stage: 2 };
+    }
+
+    return { label: "Awaiting quotation", className: "is-awaiting", stage: 1 };
+}
+
+function appendTextElement(parent, tagName, text, className) {
+    const element = document.createElement(tagName);
+    element.textContent = text;
+
+    if (className) element.className = className;
+
+    parent.appendChild(element);
+    return element;
+}
+
+function createStage(booking, stage) {
+    const journeyStage = document.createElement("div");
+    journeyStage.className = "journey-stage";
+    journeyStage.setAttribute("aria-label", `Journey status: ${stage.label}`);
+
+    ["Request", "Quotation", "Payment", "Confirmed"].forEach((label, index) => {
+        const stageItem = document.createElement("span");
+        stageItem.className = "stage";
+
+        if (index < stage.stage) stageItem.classList.add("is-complete");
+        if (index === stage.stage) stageItem.classList.add("is-current");
+
+        stageItem.textContent = label;
+        journeyStage.appendChild(stageItem);
+
+        if (index < 3) {
+            const line = document.createElement("span");
+            line.className = "stage-line";
+            if (index < stage.stage) line.classList.add("is-complete");
+            journeyStage.appendChild(line);
+        }
+    });
+
+    return journeyStage;
+}
+
+function createBookingCard(bookingDoc) {
+    const booking = bookingDoc.data();
+    const stage = getBookingState(booking);
+    const card = document.createElement("article");
+    card.className = "booking-card";
+
+    const details = document.createElement("div");
+    appendTextElement(details, "p", booking.service || "Tailored journey", "booking-overline");
+    appendTextElement(details, "h3", booking.destination || "Your Kenya journey");
+
+    const bookingDetails = document.createElement("div");
+    bookingDetails.className = "booking-details";
+    appendTextElement(bookingDetails, "span", `Travel date: ${formatTravelDate(booking.travelDate)}`);
+
+    if (booking.passengers) {
+        appendTextElement(bookingDetails, "span", `${booking.passengers} traveller${booking.passengers === 1 ? "" : "s"}`);
+    }
+
+    details.appendChild(bookingDetails);
+    details.appendChild(createStage(booking, stage));
+
+    const side = document.createElement("div");
+    side.className = "booking-side";
+    appendTextElement(side, "span", stage.label, `status-badge ${stage.className}`.trim());
+
+    if (booking.quotation?.sent) {
+        const quote = document.createElement("p");
+        quote.className = "quote-line";
+        quote.textContent = "Your quotation";
+        appendTextElement(
+            quote,
+            "strong",
+            `${booking.quotation.currency || "KES"} ${Number(booking.quotation.amount || 0).toLocaleString("en-KE")}`
+        );
+        side.appendChild(quote);
+
+        const payButton = document.createElement("button");
+        const isPaid = booking.payment?.status === "Paid";
+        payButton.className = "payBtn";
+        payButton.type = "button";
+        payButton.dataset.id = bookingDoc.id;
+        payButton.dataset.amount = booking.quotation.amount;
+        payButton.disabled = isPaid;
+        payButton.textContent = isPaid ? "Payment received" : "Pay via M-Pesa";
+        side.appendChild(payButton);
+    }
+
+    card.append(details, side);
+    return card;
+}
+
+function renderEmptyState() {
+    bookingsContainer.replaceChildren();
+    const emptyState = document.createElement("div");
+    emptyState.className = "empty-state";
+
+    const isFiltered = activeBookingFilter !== "all";
+    const heading = activeBookingFilter === "awaiting"
+        ? "No journeys are awaiting a quotation."
+        : activeBookingFilter === "payment"
+            ? "No journeys are ready for payment."
+            : "Your next journey starts here.";
+    const message = isFiltered
+        ? "Select Your journeys to see all of your booking requests."
+        : "Tell us where you would like to go and we will prepare a journey around you.";
+
+    appendTextElement(emptyState, "h3", heading);
+    appendTextElement(emptyState, "p", message);
+    const bookingLink = document.createElement("a");
+    bookingLink.href = "booking.html";
+    bookingLink.textContent = isFiltered ? "View all journeys" : "Plan a journey";
+
+    if (isFiltered) {
+        bookingLink.href = "#tripsHeading";
+        bookingLink.addEventListener("click", () => setBookingFilter("all"));
+    }
+
+    emptyState.appendChild(bookingLink);
+    bookingsContainer.appendChild(emptyState);
+}
+
+function getFilteredBookings() {
+    if (activeBookingFilter === "awaiting") {
+        return liveBookingDocs.filter((bookingDoc) => !bookingDoc.data().quotation?.sent);
+    }
+
+    if (activeBookingFilter === "payment") {
+        return liveBookingDocs.filter((bookingDoc) => {
+            const booking = bookingDoc.data();
+            return booking.quotation?.sent && booking.payment?.status !== "Paid";
+        });
+    }
+
+    return liveBookingDocs;
+}
+
+function renderFilteredBookings() {
+    const bookingDocs = getFilteredBookings();
+
+    if (bookingDocs.length === 0) {
+        renderEmptyState();
+        return;
+    }
+
+    bookingsContainer.replaceChildren(...bookingDocs.map(createBookingCard));
+}
+
+function setBookingFilter(filter) {
+    activeBookingFilter = filter;
+
+    summaryFilters.forEach((filterButton) => {
+        const isSelected = filterButton.dataset.filter === filter;
+        filterButton.classList.toggle("is-selected", isSelected);
+        filterButton.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    renderFilteredBookings();
+}
+
+summaryFilters.forEach((filterButton) => {
+    filterButton.addEventListener("click", () => {
+        setBookingFilter(filterButton.dataset.filter);
+    });
+});
+
 onAuthStateChanged(auth, async (user) => {
 
     if (!user) {
@@ -60,140 +256,32 @@ onAuthStateChanged(auth, async (user) => {
 
     document.getElementById("customerName").textContent =
         userDoc.data().name;
-    const bookingsContainer =
-        document.getElementById("bookingsContainer");
-
-
     const q = query(
         collection(db, "bookings"),
         where("userId", "==", user.uid)
     );
 
 
-    const snapshot = await getDocs(q);
+    onSnapshot(q, (snapshot) => {
+        console.log("Bookings found:", snapshot.size);
 
-    console.log("Bookings found:", snapshot.size);
+        const bookings = snapshot.docs.map((bookingDoc) => bookingDoc.data());
+        document.getElementById("totalBookings").textContent = bookings.length;
+        document.getElementById("awaitingQuote").textContent = bookings.filter((booking) => !booking.quotation?.sent).length;
+        document.getElementById("readyForPayment").textContent = bookings.filter((booking) => booking.quotation?.sent && booking.payment?.status !== "Paid").length;
 
-
-    bookingsContainer.innerHTML = "";
-
-
-    if (snapshot.empty) {
-
-        bookingsContainer.innerHTML =
-            "<p>No bookings yet.</p>";
-
-    }
-
-    else {
-
-        snapshot.forEach((bookingDoc) => {
-
-            const booking =
-                bookingDoc.data();
-
-            console.log("Booking data:", booking);
-
-            bookingsContainer.innerHTML += `
-
-<div class="booking-card">
-
-<h3>
-${booking.destination}
-</h3>
-
-<p>
-Service:
-${booking.service}
-</p>
-
-<p>
-Travel Date:
-${booking.travelDate}
-</p>
-
-<p>
-Status:
-${booking.status}
-</p>
-
-${booking.quotation?.sent
-
-                    ?
-
-                    `
-
-<p>
-<strong>
-Quotation:
-</strong>
-
-KES ${Number(booking.quotation.amount).toLocaleString()}
-
-</p>
-
-<p>
-<strong>
-Payment Status:
-</strong>
-
-${booking.payment?.status || "Pending"}
-
-</p>
-
-<button
-class="payBtn"
-data-id="${bookingDoc.id}"
-data-amount="${booking.quotation.amount}"
-${booking.payment?.status === "Paid" ? "disabled" : ""}>
-
-${booking.payment?.status === "Paid"
-
-                        ?
-
-                        "✓ Payment Received"
-
-                        :
-
-                        "Pay via M-Pesa"
-
-                    }
-
-</button>
-
-`
-
-                    :
-
-                    `
-
-<p>
-Quotation not available yet.
-</p>
-
-<p>
-Please wait while Little Monks Safaris prepares your quotation.
-</p>
-
-<button
-class="payBtn"
-disabled>
-
-Pay via M-Pesa
-
-</button>
-
-`
-
-                }
-
-</div>
-
-`;
-
-        });
-
-    }
+        liveBookingDocs = snapshot.docs;
+        renderFilteredBookings();
+    }, (error) => {
+        console.error("Unable to load live bookings:", error);
+        bookingsContainer.replaceChildren();
+        appendTextElement(
+            bookingsContainer,
+            "p",
+            "We could not load your journeys. Please refresh the page and try again.",
+            "loading-state"
+        );
+    });
 
 });
 // ==========================

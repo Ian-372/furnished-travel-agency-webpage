@@ -9,47 +9,59 @@
 
     <title>Customer Dashboard | Little Monks Safaris</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
 
 </head>
 
 <body>
 
-    <div class="dashboard">
-
+    <main class="dashboard">
         <header class="dashboard-header">
-
-            <h1>
-                Welcome,
-                <span id="customerName">
-                    Customer
-                </span>
-                👋
-            </h1>
-
-            <button id="logoutBtn">
-                Logout
-            </button>
-
+            <a class="brand" href="index.html" aria-label="Little Monks Safaris home">
+                Little Monks <span>Safaris</span>
+            </a>
+            <div class="header-actions">
+                <button id="logoutBtn" class="logout-button" type="button">Log out</button>
+            </div>
         </header>
 
-        <section class="dashboard-content">
-
-            <div class="card">
-
-                <h2>Upcoming Trips</h2>
-
-                <div id="bookingsContainer">
-
-                    No bookings yet.
-
-                </div>
-
-            </div>
-
+        <section class="welcome-panel" aria-labelledby="welcomeHeading">
+            <p class="eyebrow">YOUR TRAVEL DESK</p>
+            <h1 id="welcomeHeading">Welcome back, <span id="customerName">Customer</span>.</h1>
+            <p class="welcome-copy">Keep track of your upcoming journeys, quotations, and payments in one place.</p>
         </section>
 
-    </div>
+        <section class="summary-grid" aria-label="Booking overview">
+            <button class="summary-item is-selected" type="button" data-filter="all" aria-pressed="true">
+                <span class="summary-label">Your journeys</span>
+                <strong id="totalBookings">0</strong>
+            </button>
+            <button class="summary-item summary-item-gold" type="button" data-filter="awaiting" aria-pressed="false">
+                <span class="summary-label">Awaiting quotation</span>
+                <strong id="awaitingQuote">0</strong>
+            </button>
+            <button class="summary-item" type="button" data-filter="payment" aria-pressed="false">
+                <span class="summary-label">Ready for payment</span>
+                <strong id="readyForPayment">0</strong>
+            </button>
+        </section>
+
+        <section class="trips-section" aria-labelledby="tripsHeading">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">JOURNEY PLANNER</p>
+                    <h2 id="tripsHeading">Your trips</h2>
+                </div>
+                <a class="new-booking-link" href="booking.html">Plan a journey <span aria-hidden="true">&#8599;</span></a>
+            </div>
+            <div id="bookingsContainer" class="bookings-container" aria-live="polite">
+                <p class="loading-state">Loading your journeys...</p>
+            </div>
+        </section>
+    </main>
 
     <script type="module" src="js/dashboard.js"></script>
 

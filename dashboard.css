@@ -559,18 +559,187 @@ PAYMENT BUTTON
 
     border-radius: 12px;
 
-    background: linear-gradient(135deg,#0B8F3A,#16C55F);
+}
 
-    color: white;
+/* Dashboard refresh */
+body {
+    background: #050807;
+    color: #f8f3e7;
+    font-family: 'Montserrat', sans-serif;
+}
 
-    font-size: 15px;
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto;
+    height: 280px;
+    background: linear-gradient(110deg, rgba(5, 8, 7, .94), rgba(6, 46, 27, .88)), url("https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1800&q=85") center 43% / cover;
+    z-index: -1;
+}
 
-    font-weight: 600;
+.dashboard {
+    width: min(1120px, calc(100% - 40px));
+    padding: 24px 0 64px;
+}
 
+.dashboard-header {
+    padding: 12px 0 42px;
+    margin: 0;
+    background: none;
+    backdrop-filter: none;
+    border: 0;
+    border-radius: 0;
+}
+
+.brand {
+    color: #fffdf5;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.brand span, .dashboard-header span { color: #e6c763; }
+.header-actions { display: flex; align-items: center; gap: 18px; }
+.dashboard-header .logout-button {
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 700;
     cursor: pointer;
+}
+.dashboard-header .logout-button:hover { background: #e6c763; border-color: #e6c763; color: #18342b; transform: none; }
 
-    transition: .35s ease;
+.welcome-panel {
+    max-width: 670px;
+    padding: 26px 0 70px;
+    color: #fffdf5;
+}
+.eyebrow {
+    margin: 0 0 10px;
+    color: #e4c766;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+}
+.welcome-panel h1 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.12;
+}
+.welcome-panel h1 span { color: #e6c763; }
+.welcome-copy { max-width: 570px; margin: 16px 0 0; color: rgba(255,253,245,.8); line-height: 1.7; }
 
+.summary-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: -26px; }
+.summary-item {
+    min-height: 138px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 21px 23px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(201, 162, 39, .35);
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(19, 45, 33, .08);
+    color: inherit;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: .25s ease;
+}
+.summary-item-gold { background: rgba(201, 162, 39, .18); border-color: #c9a227; }
+.summary-item:hover, .summary-item.is-selected { border-color: #e4c766; background: rgba(201, 162, 39, .2); transform: translateY(-3px); }
+.summary-item:focus-visible { outline: 2px solid #e4c766; outline-offset: 3px; }
+.summary-label { color: #d9d9d9; font-size: .8rem; font-weight: 700; }
+.summary-item strong { color: #f8f3e7; font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 600; line-height: 1; }
+
+.dashboard-content, .trips-section { display: block; margin-top: 54px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 20px; }
+.section-heading .eyebrow { color: #c9a227; }
+.section-heading h2 { margin: 0; color: #f8f3e7; font-family: 'Playfair Display', serif; font-size: 2.1rem; }
+.new-booking-link { color: #f8f3e7; font-size: .84rem; font-weight: 700; text-decoration: none; }
+.new-booking-link span { color: #e4c766; font-size: 1.1rem; }
+.new-booking-link:hover { color: #e4c766; }
+.bookings-container { display: grid; gap: 14px; }
+
+.booking-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    margin: 0;
+    padding: 27px 29px;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(201, 162, 39, .28);
+    border-left: 4px solid #c9a227;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(19, 45, 33, .05);
+}
+.booking-card:hover { transform: none; border-color: #c9a227; }
+.booking-overline { color: #e4c766; font-family: 'Montserrat', sans-serif; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.booking-card h3 { margin: 7px 0 14px; color: #f8f3e7; font-family: 'Playfair Display', serif; font-size: 1.65rem; }
+.booking-details { display: flex; flex-wrap: wrap; gap: 8px 22px; color: #d9d9d9; font-size: .85rem; }
+.booking-details span { display: inline-flex; gap: 6px; align-items: center; }
+.booking-details strong { color: #f8f3e7; font-weight: 700; }
+.booking-side { min-width: 205px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 21px; }
+.status-badge { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 3px; background: rgba(11, 90, 52, .4); color: #c3e4cd; font-size: .72rem; font-weight: 700; }
+.status-badge.is-awaiting { background: rgba(201, 162, 39, .2); color: #e4c766; }
+.status-badge.is-paid { background: rgba(11, 90, 52, .5); color: #b9e2bd; }
+.quote-line { color: #d9d9d9; font-size: .76rem; text-align: right; }
+.quote-line strong { display: block; margin-top: 3px; color: #f8f3e7; font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+.booking-card .payBtn {
+    width: auto;
+    margin: 0;
+    padding: 11px 17px;
+    border-radius: 4px;
+    background: #c9a227;
+    color: #050807;
+    font-size: .78rem;
+    font-weight: 700;
+}
+.booking-card .payBtn:hover { background: #e4c766; transform: none; }
+.booking-card .payBtn:disabled { background: rgba(255,255,255,.14); color: #aeb8b2; cursor: not-allowed; }
+.journey-stage { display: flex; align-items: center; gap: 0; margin-top: 22px; }
+.stage { color: #aeb8b2; font-size: .68rem; font-weight: 700; white-space: nowrap; }
+.stage::before { content: ''; width: 8px; height: 8px; display: inline-block; margin-right: 5px; border: 2px solid #77857c; border-radius: 50%; vertical-align: -1px; }
+.stage.is-complete, .stage.is-current { color: #e4c766; }
+.stage.is-complete::before, .stage.is-current::before { border-color: #c9a227; background: #c9a227; }
+.stage-line { width: 34px; height: 1px; margin: 0 8px; background: #405248; }
+.stage-line.is-complete { background: #c9a227; }
+
+.empty-state { padding: 58px 25px; text-align: center; background: rgba(255,255,255,.06); border: 1px dashed rgba(201, 162, 39, .45); border-radius: 6px; }
+.empty-state h3 { margin: 0 0 9px; color: #f8f3e7; font-family: 'Playfair Display', serif; font-size: 1.65rem; }
+.empty-state p { max-width: 450px; margin: 0 auto 21px; color: #d9d9d9; font-size: .9rem; line-height: 1.7; }
+.empty-state a { display: inline-block; padding: 11px 17px; border-radius: 4px; background: #c9a227; color: #050807; font-size: .8rem; font-weight: 700; text-decoration: none; }
+.loading-state { color: #d9d9d9; }
+
+@media(max-width:700px) {
+    body::before { height: 330px; }
+    .dashboard { width: min(100% - 28px, 1120px); padding-top: 18px; }
+    .dashboard-header { padding-bottom: 30px; }
+    .welcome-panel { padding: 16px 0 80px; }
+    .welcome-panel h1 { font-size: 2.35rem; }
+    .summary-grid { grid-template-columns: 1fr; margin-top: -37px; gap: 8px; }
+    .summary-item { min-height: 84px; flex-direction: row; align-items: center; }
+    .summary-item strong { font-size: 2.35rem; }
+    .dashboard-content, .trips-section { margin-top: 42px; }
+    .section-heading { align-items: flex-start; gap: 20px; }
+    .section-heading h2 { font-size: 1.85rem; }
+    .new-booking-link { padding-top: 19px; white-space: nowrap; }
+    .booking-card { grid-template-columns: 1fr; gap: 19px; padding: 23px 20px; }
+    .booking-side { min-width: 0; align-items: flex-start; gap: 14px; }
+    .quote-line { text-align: left; }
+    .journey-stage { overflow-x: auto; padding-bottom: 3px; }
+}
+
+@media(max-width:400px) {
+    .section-heading { display: block; }
+    .new-booking-link { display: inline-block; padding-top: 13px; }
 }
 
 .payBtn:hover:not(:disabled){
