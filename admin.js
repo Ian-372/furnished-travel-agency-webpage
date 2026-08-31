@@ -25,6 +25,8 @@ import {
 let currentAdmin = null;
 
 const ADMIN_EMAIL = "littlemonksltd@gmail.com";
+const isAdminEmail = (email) =>
+    email?.trim().toLowerCase() === ADMIN_EMAIL;
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -54,7 +56,7 @@ onAuthStateChanged(auth, async (user) => {
     // ==========================
     // NOT THE ADMIN ACCOUNT
     // ==========================
-    if (user.email !== ADMIN_EMAIL) {
+    if (!isAdminEmail(user.email)) {
 
         alert("Access denied. Administrator privileges required.");
 
@@ -76,7 +78,7 @@ onAuthStateChanged(auth, async (user) => {
         currentAdminEmail.textContent = user.email;
 
     }
-    document.body.style.display = "block";
+    document.body.style.display = "flex";
     console.log("✅ Admin authenticated:", user.email);
 
 });
@@ -95,6 +97,13 @@ const pendingBookings = document.getElementById("pendingBookings");
 const completedBookings = document.getElementById("completedBookings");
 const confirmedBookings =
     document.getElementById("confirmedBookings");
+const paidRevenue = document.getElementById("paidRevenue");
+const liveStatus = document.getElementById("liveStatus");
+const actionQueue = document.getElementById("actionQueue");
+const attentionCount = document.getElementById("attentionCount");
+const railQuoteRequests = document.getElementById("railQuoteRequests");
+const railReceivable = document.getElementById("railReceivable");
+const railPaidRevenue = document.getElementById("railPaidRevenue");
 
 const logoutBtn = document.getElementById("logoutBtn");
 const currentAdminEmail =
@@ -105,6 +114,7 @@ const changePasswordBtn =
     document.getElementById("changePasswordBtn");
 const customersTable = document.getElementById("customersTable");
 const paymentsTable = document.getElementById("paymentsTable");
+const clearBookingFilters = document.getElementById("clearBookingFilters");
 
 
 
@@ -120,6 +130,159 @@ let destinationData = {};
 let serviceData = {};
 
 let selectedBookingId = null;
+let bookingDocuments = [];
+let activeBookingFilter = "all";
+
+function isAwaitingQuote(booking) {
+    return ["pending", "pending quote"].includes(
+        (booking.status || "").toLowerCase()
+    );
+}
+
+function renderBookings() {
+    const searchTerm = document.getElementById("searchBooking").value.trim().toLowerCase();
+    const statusFilter = document.getElementById("statusFilter").value;
+    const destinationFilter = document.getElementById("destinationFilter").value;
+    const filteredBookings = bookingDocuments.filter(({ booking }) => {
+        const matchesSearch = [booking.fullName, booking.email, booking.phone]
+            .some((value) => value?.toLowerCase().includes(searchTerm));
+        const matchesKpi = activeBookingFilter === "all" ||
+            (activeBookingFilter === "pending quote" && isAwaitingQuote(booking)) ||
+            (activeBookingFilter === "payment pending" &&
+                booking.quotation?.sent && booking.payment?.status !== "Paid") ||
+            booking.status?.toLowerCase() === activeBookingFilter;
+        const matchesStatus = statusFilter === "all" || booking.status === statusFilter;
+        const matchesDestination = destinationFilter === "all" || booking.destination === destinationFilter;
+
+        return matchesSearch && matchesKpi && matchesStatus && matchesDestination;
+    });
+
+    bookingsTable.innerHTML = "";
+
+    filteredBookings.forEach(({ id, booking }) => {
+        bookingsTable.innerHTML += `
+        <tr>
+            <td>${booking.fullName}</td>
+            <td>${booking.destination}</td>
+            <td>${booking.service}</td>
+            <td>${booking.travelDate}</td>
+            <td><span class="status ${(booking.status || "Pending").toLowerCase()}">${booking.status}</span></td>
+            <td>
+                <button class="viewBtn" onclick="viewBooking('${id}')">View</button>
+                <button class="confirmBtn" onclick="confirmBooking('${id}')">Confirm</button>
+                <button class="deleteBtn" onclick="deleteBooking('${id}')">Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    document.getElementById("bookingResultCount").textContent =
+        `${filteredBookings.length} of ${bookingDocuments.length} booking${bookingDocuments.length === 1 ? "" : "s"}`;
+}
+
+function setBookingFilter(filter) {
+    activeBookingFilter = filter;
+    document.getElementById("statusFilter").value = "all";
+
+    document.querySelectorAll("[data-booking-filter]").forEach((card) => {
+        const isSelected = card.dataset.bookingFilter === filter;
+        card.classList.toggle("is-selected", isSelected);
+        card.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    renderBookings();
+}
+
+function clearFilters() {
+    activeBookingFilter = "all";
+    document.getElementById("searchBooking").value = "";
+    document.getElementById("statusFilter").value = "all";
+    document.getElementById("destinationFilter").value = "all";
+
+    document.querySelectorAll("[data-booking-filter]").forEach((card) => {
+        const isSelected = card.dataset.bookingFilter === "all";
+        card.classList.toggle("is-selected", isSelected);
+        card.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    renderBookings();
+}
+
+function populateDestinationFilter() {
+    const destinationFilter = document.getElementById("destinationFilter");
+    const selectedDestination = destinationFilter.value;
+    const destinations = [...new Set(
+        bookingDocuments
+            .map(({ booking }) => booking.destination)
+            .filter(Boolean)
+    )].sort();
+
+    destinationFilter.replaceChildren(new Option("All Destinations", "all"));
+    destinations.forEach((destination) => {
+        destinationFilter.add(new Option(destination, destination));
+    });
+
+    destinationFilter.value = destinations.includes(selectedDestination)
+        ? selectedDestination
+        : "all";
+}
+
+function getAttentionState(booking) {
+    if (isAwaitingQuote(booking)) {
+        return "Quotation needed";
+    }
+
+    if (booking.quotation?.sent && booking.payment?.status !== "Paid") {
+        return "Payment pending";
+    }
+
+    if (booking.status === "Confirmed") {
+        return "Upcoming journey";
+    }
+
+    return "Booking update";
+}
+
+function renderActionQueue() {
+    const priorityBookings = bookingDocuments
+        .filter(({ booking }) => isAwaitingQuote(booking) ||
+            (booking.quotation?.sent && booking.payment?.status !== "Paid") ||
+            booking.status === "Confirmed")
+        .slice(0, 5);
+
+    attentionCount.textContent = priorityBookings.length;
+    actionQueue.replaceChildren();
+
+    if (priorityBookings.length === 0) {
+        const emptyState = document.createElement("p");
+        emptyState.className = "queue-empty";
+        emptyState.textContent = bookingDocuments.length === 0
+            ? "No bookings have been received yet. New requests will appear here automatically."
+            : "Nothing needs immediate action. Your booking queue is up to date.";
+        actionQueue.appendChild(emptyState);
+        return;
+    }
+
+    priorityBookings.forEach(({ id, booking }) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "queue-item";
+        item.dataset.bookingId = id;
+
+        const details = document.createElement("span");
+        details.className = "queue-details";
+        const name = document.createElement("strong");
+        name.textContent = booking.fullName || "Unnamed customer";
+        const journey = document.createElement("span");
+        journey.textContent = booking.destination || booking.service || "Journey details pending";
+        details.append(name, journey);
+
+        const state = document.createElement("span");
+        state.className = "queue-state";
+        state.textContent = getAttentionState(booking);
+        item.append(details, state);
+        actionQueue.appendChild(item);
+    });
+}
 
 // ==========================
 // LOAD BOOKINGS
@@ -129,8 +292,13 @@ onSnapshot(
     collection(db, "bookings"),
     (snapshot) => {
 
+        liveStatus.textContent = "Live data connected";
+        liveStatus.parentElement.classList.remove("is-error");
 
-        bookingsTable.innerHTML = "";
+        destinationData = {};
+        serviceData = {};
+        allBookings = {};
+        bookingDocuments = [];
 
 
         if (customersTable) customersTable.innerHTML = "";
@@ -145,6 +313,8 @@ onSnapshot(
         let completed = 0;
 
         let quoted = 0;
+        let revenue = 0;
+        let receivable = 0;
 
 
 
@@ -188,6 +358,7 @@ onSnapshot(
             // Save booking locally for viewing
 
             allBookings[document.id] = booking;
+            bookingDocuments.push({ id: document.id, booking });
 
 
 
@@ -208,82 +379,15 @@ onSnapshot(
                 completed++;
             }
 
+            if (booking.payment?.status === "Paid") {
+                revenue += Number(booking.quotation?.amount) || 0;
+            }
+
+            if (booking.quotation?.sent && booking.payment?.status !== "Paid") {
+                receivable += Number(booking.quotation?.amount) || 0;
+            }
 
 
-
-
-            bookingsTable.innerHTML += `
-
-
-        <tr>
-
-
-            <td>${booking.fullName}</td>
-
-
-            <td>${booking.destination}</td>
-
-
-            <td>${booking.service}</td>
-
-
-            <td>${booking.travelDate}</td>
-
-
-
-            <td>
-
-               <span class="status ${(booking.status || "Pending").toLowerCase()}">
-
-                    ${booking.status}
-
-                </span>
-
-            </td>
-
-
-
-            <td>
-
-
-                <button 
-                class="viewBtn"
-                onclick="viewBooking('${document.id}')">
-
-                    View
-
-                </button>
-
-
-
-                <button
-                class="confirmBtn"
-                onclick="confirmBooking('${document.id}')">
-
-                    Confirm
-
-                </button>
-
-
-
-
-                <button
-                class="deleteBtn"
-                onclick="deleteBooking('${document.id}')">
-
-                    Delete
-
-                </button>
-
-
-            </td>
-
-
-
-        </tr>
-
-
-        `;
             if (customersTable) {
 
                 customersTable.innerHTML += `
@@ -325,18 +429,52 @@ onSnapshot(
 
         completedBookings.textContent = completed;
 
+        paidRevenue.textContent = `KES ${revenue.toLocaleString("en-KE")}`;
+        railQuoteRequests.textContent = pending;
+        railReceivable.textContent = `KES ${receivable.toLocaleString("en-KE")}`;
+        railPaidRevenue.textContent = `KES ${revenue.toLocaleString("en-KE")}`;
+
+        populateDestinationFilter();
+        renderBookings();
+        renderActionQueue();
+
         loadCharts();
 
     },
     (error) => {
 
         console.error("Firestore listener error:", error);
+        liveStatus.textContent = "Live data unavailable";
+        liveStatus.parentElement.classList.add("is-error");
+        attentionCount.textContent = "!";
+        actionQueue.replaceChildren();
+        const errorState = document.createElement("p");
+        errorState.className = "queue-empty";
+        errorState.textContent = "Bookings could not be loaded. Check the Firestore rules and your administrator access, then refresh.";
+        actionQueue.appendChild(errorState);
 
 
 
 
 
     });
+
+document.querySelectorAll("[data-booking-filter]").forEach((card) => {
+    card.addEventListener("click", () => {
+        setBookingFilter(card.dataset.bookingFilter);
+        document.querySelector('[data-section="bookings"]').click();
+    });
+});
+
+document.getElementById("searchBooking").addEventListener("input", renderBookings);
+document.getElementById("statusFilter").addEventListener("change", renderBookings);
+document.getElementById("destinationFilter").addEventListener("change", renderBookings);
+clearBookingFilters.addEventListener("click", clearFilters);
+
+actionQueue.addEventListener("click", (event) => {
+    const queueItem = event.target.closest("[data-booking-id]");
+    if (queueItem) window.viewBooking(queueItem.dataset.bookingId);
+});
 
 
 
@@ -612,7 +750,20 @@ function loadCharts() {
 
                     label: "Bookings",
 
-                    data: Object.values(destinationData)
+                    data: Object.values(destinationData),
+
+                    backgroundColor: [
+                        "#c9a227",
+                        "#0b5a34",
+                        "#e4c766",
+                        "#48745e",
+                        "#7f915f",
+                        "#8b6b32"
+                    ],
+
+                    borderColor: "#062e1b",
+
+                    borderWidth: 3
 
                 }]
 
@@ -622,7 +773,15 @@ function loadCharts() {
 
             options: {
 
-                responsive: true
+                responsive: true,
+
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#f8f3e7"
+                        }
+                    }
+                }
 
             }
 
@@ -646,7 +805,11 @@ function loadCharts() {
 
                     label: "Requests",
 
-                    data: Object.values(serviceData)
+                    data: Object.values(serviceData),
+
+                    backgroundColor: "#c9a227",
+
+                    borderRadius: 3
 
                 }]
 
@@ -665,8 +828,27 @@ function loadCharts() {
 
                     y: {
 
+                        beginAtZero: true,
 
-                        beginAtZero: true
+                        ticks: {
+                            color: "#c9d0cb",
+                            precision: 0
+                        },
+
+                        grid: {
+                            color: "rgba(248, 243, 231, .12)"
+                        }
+
+                    },
+
+                    x: {
+                        ticks: {
+                            color: "#c9d0cb"
+                        },
+
+                        grid: {
+                            display: false
+                        }
 
 
                     }
@@ -1095,4 +1277,11 @@ togglePasswords.forEach(toggle => {
     });
 
 
+});
+
+document.querySelectorAll("[data-sidebar-filter]").forEach((metric) => {
+    metric.addEventListener("click", () => {
+        setBookingFilter(metric.dataset.sidebarFilter);
+        document.querySelector('[data-section="bookings"]').click();
+    });
 });

@@ -3,13 +3,17 @@ import { auth } from "./js/firebase-config.js";
 import {
     signInWithEmailAndPassword,
     sendEmailVerification,
+    sendPasswordResetEmail,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const ADMIN_EMAIL = "littlemonksltd@gmail.com";
+const isAdminEmail = (email) =>
+    email?.trim().toLowerCase() === ADMIN_EMAIL;
 
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
+const resetPasswordBtn = document.getElementById("resetPasswordBtn");
 
 form.addEventListener("submit", async (e) => {
 
@@ -29,11 +33,11 @@ form.addEventListener("submit", async (e) => {
         const user = userCredential.user;
 
         // Only the admin account is allowed
-        if (user.email !== ADMIN_EMAIL) {
+        if (!isAdminEmail(user.email)) {
 
             await signOut(auth);
 
-            message.innerHTML = "❌ Access denied.";
+            message.textContent = "Access denied. Sign in with the administrator account.";
 
             return;
 
@@ -46,14 +50,14 @@ form.addEventListener("submit", async (e) => {
 
             await signOut(auth);
 
-            message.innerHTML =
-                "📧 Verification email sent. Please verify your email, then log in again.";
+            message.textContent =
+                "A verification email was sent. Verify the administrator account, then log in again.";
 
             return;
 
         }
 
-        message.innerHTML = "✅ Login Successful";
+        message.textContent = "Login successful. Opening the dashboard...";
 
         setTimeout(() => {
 
@@ -67,8 +71,25 @@ form.addEventListener("submit", async (e) => {
 
         console.error(error);
 
-        message.innerHTML = error.message;
+        message.textContent = error.message;
 
     }
 
+});
+
+resetPasswordBtn.addEventListener("click", async () => {
+    resetPasswordBtn.disabled = true;
+    message.textContent = "Sending password reset email...";
+
+    try {
+        await sendPasswordResetEmail(auth, ADMIN_EMAIL);
+        message.textContent = "Password reset email sent. Check the administrator inbox, including spam.";
+    }
+    catch (error) {
+        console.error(error);
+        message.textContent = "We could not send the password reset email. Please try again.";
+    }
+    finally {
+        resetPasswordBtn.disabled = false;
+    }
 });

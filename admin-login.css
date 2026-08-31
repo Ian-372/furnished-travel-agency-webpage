@@ -73,6 +73,22 @@ body{
     transform:translateY(-2px);
 }
 
+.login-card .reset-password-button{
+    width:auto;
+    margin-top:18px;
+    padding:0;
+    background:transparent;
+    color:#ffca3a;
+    font-size:13px;
+    font-weight:600;
+}
+
+.login-card .reset-password-button:hover{
+    background:transparent;
+    color:#fff;
+    transform:none;
+}
+
 #message{
     margin-top:20px;
     color:#ffb703;

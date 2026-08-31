@@ -1,0 +1,140 @@
+:root {
+    --nav-black: #050807;
+    --nav-green: #062e1b;
+    --nav-gold: #c9a227;
+    --nav-light-gold: #e4c766;
+    --nav-cream: #f8f3e7;
+    --nav-border: rgba(201, 162, 39, .25);
+}
+
+:is(.header, .about-header, .services-header, .package-header, .booking-header) {
+    color: var(--nav-cream);
+    background: rgba(5, 8, 7, .8);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--nav-border);
+}
+
+:is(.navbar, .about-nav, .services-nav, .package-nav, .booking-nav) {
+    width: min(1400px, 92%);
+    min-height: 82px;
+    margin: auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+:is(.logo, .about-logo, .services-logo, .package-logo, .booking-logo) {
+    color: var(--nav-cream);
+    font-family: "Playfair Display", serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+:is(.logo, .about-logo, .services-logo, .package-logo, .booking-logo) span {
+    display: inline;
+    margin: 0;
+    color: var(--nav-light-gold);
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2.3vw, 34px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a {
+    position: relative;
+    color: var(--nav-cream);
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -9px;
+    left: 0;
+    height: 1px;
+    width: 0;
+    background: var(--nav-light-gold);
+    transition: width .25s ease;
+}
+
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a:hover,
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a.active {
+    color: var(--nav-light-gold);
+}
+
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a:hover::after,
+:is(.nav-links, .about-links, .services-links, .package-links, .booking-links) a.active::after {
+    width: 100%;
+}
+
+:is(.nav-btn, .about-nav-btn, .services-nav-btn, .package-nav-btn) {
+    padding: 12px 19px;
+    border: 1px solid var(--nav-gold);
+    border-radius: 0;
+    background: var(--nav-gold);
+    color: var(--nav-black);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background .25s ease, color .25s ease, transform .25s ease;
+    white-space: nowrap;
+}
+
+:is(.nav-btn, .about-nav-btn, .services-nav-btn, .package-nav-btn):hover {
+    background: var(--nav-light-gold);
+    color: var(--nav-black);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+    :is(.navbar, .about-nav, .services-nav, .package-nav, .booking-nav) {
+        min-height: 72px;
+        width: min(100% - 32px, 1400px);
+    }
+}
+
+@media (max-width: 1000px) {
+    .about-links,
+    .services-links {
+        display: none;
+    }
+
+    .services-links.mobile-open {
+        display: flex;
+    }
+}
+
+@media (max-width: 850px) {
+    .booking-links {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .nav-links {
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+}
