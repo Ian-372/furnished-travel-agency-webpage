@@ -601,6 +601,8 @@ body::before {
 
 .brand span, .dashboard-header span { color: #e6c763; }
 .header-actions { display: flex; align-items: center; gap: 18px; }
+.home-link { color: #f8f3e7; font-size: .78rem; font-weight: 700; text-decoration: none; }
+.home-link:hover { color: #e4c766; }
 .dashboard-header .logout-button {
     padding: 10px 16px;
     border: 1px solid rgba(255,255,255,.55);
@@ -636,7 +638,7 @@ body::before {
 .welcome-panel h1 span { color: #e6c763; }
 .welcome-copy { max-width: 570px; margin: 16px 0 0; color: rgba(255,253,245,.8); line-height: 1.7; }
 
-.summary-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: -26px; }
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: -26px; }
 .summary-item {
     min-height: 138px;
     display: flex;
