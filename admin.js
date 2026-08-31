@@ -1,4 +1,5 @@
 import { db, auth } from "./js/firebase-config.js";
+import { isAdminEmail } from "./js/admin-config.js";
 
 import {
     collection,
@@ -23,10 +24,6 @@ import {
 // ==========================
 
 let currentAdmin = null;
-
-const ADMIN_EMAIL = "littlemonksltd@gmail.com";
-const isAdminEmail = (email) =>
-    email?.trim().toLowerCase() === ADMIN_EMAIL;
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {

@@ -210,69 +210,55 @@ const loginForm = document.getElementById("loginForm");
 
 async function logIn(event) {
 
-            event?.preventDefault();
+    event?.preventDefault();
 
+    const email =
+        document.getElementById("loginEmail").value.trim();
 
-    loginBtn.addEventListener(
-        "click",
-        async () => {
+    const password =
+        document.getElementById("loginPassword").value;
 
+    try {
 
-            const email =
-                document.getElementById("loginEmail").value;
+        loginBtn.disabled = true;
 
+        await signInWithEmailAndPassword(
 
-            const password =
-                document.getElementById("loginPassword").value;
+            auth,
+            email,
+            password
 
+        );
 
+        const redirect =
+            sessionStorage.getItem("redirectAfterLogin");
 
-            try {
+        if (redirect) {
 
-                loginBtn.disabled = true;
+            sessionStorage.removeItem(
+                "redirectAfterLogin"
+            );
 
+            window.location.href = redirect;
 
-                await signInWithEmailAndPassword(
+        }
+        else {
 
-                    auth,
-                    email,
-                    password
+            window.location.href =
+                "dashboard.html";
 
-                );
+        }
 
+    }
 
+    catch (error) {
 
-                const redirect =
-                    sessionStorage.getItem("redirectAfterLogin");
+        alert(error.message);
 
-
-                if (redirect) {
-
-                    sessionStorage.removeItem(
-                        "redirectAfterLogin"
-                    );
-
-                    window.location.href = redirect;
-
-                }
-                else {
-
-                    window.location.href =
-                        "dashboard.html";
-
-                }
-
-            }
-
-
-            catch (error) {
-
-                alert(error.message);
-
-            }
-            finally {
-                loginBtn.disabled = false;
-            }
+    }
+    finally {
+        loginBtn.disabled = false;
+    }
 }
 
 if (loginForm) {
