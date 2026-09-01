@@ -8,18 +8,18 @@
 const SEOConfig = {
     baseUrl: 'https://littlemonkssafaris.com',
     businessName: 'Little Monks Safaris',
-    businessEmail: 'info@littlemonkssafaris.com',
-    businessPhone: '+254-XXX-XXXXXX', // Update with actual phone
+    businessEmail: 'littlemonksltd@gmail.com',
+    businessPhone: '+254 708 102 302',
     businessAddress: {
         country: 'KE',
         locality: 'Kenya',
-        streetAddress: '' // Add full address
+        streetAddress: 'Kenya' // Add full address when available
     },
     socialLinks: {
-        facebook: 'https://facebook.com/littlemonkssafaris',
+        facebook: 'https://www.facebook.com/profile.php?id=61590288890821',
         instagram: 'https://instagram.com/littlemonkssafaris',
         twitter: 'https://twitter.com/littlemonkssafaris',
-        linkedin: 'https://linkedin.com/company/littlemonkssafaris'
+        tiktok: 'https://www.tiktok.com/@littlemonkssafaris'
     },
     locale: 'en_US',
     defaultImage: '/images/og-image.jpg',
