@@ -82,7 +82,20 @@
     </main>
 
     <script type="module" src="js/dashboard.js"></script>
-
+    
+    <!-- SEO & Tracking Scripts -->
+    <script src="js/seo-config.js"></script>
+    <script src="js/image-seo.js"></script>
+    <script src="js/meta-pixel-config.js"></script>
+    
+    <!-- Google Analytics (Replace GA_XXXXXXXXXX with your Measurement ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_XXXXXXXXXX');
+    </script>
 </body>
 
 </html>
