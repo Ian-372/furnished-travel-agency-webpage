@@ -6,7 +6,7 @@
     <!-- Home Page -->
     <url>
         <loc>https://littlemonkssafaris.com/</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
         <image:image>
@@ -18,7 +18,7 @@
     <!-- Booking Page -->
     <url>
         <loc>https://littlemonkssafaris.com/booking.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -26,7 +26,7 @@
     <!-- Safari Packages Page -->
     <url>
         <loc>https://littlemonkssafaris.com/packages.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
@@ -38,7 +38,7 @@
     <!-- Services Page -->
     <url>
         <loc>https://littlemonkssafaris.com/services.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -46,7 +46,7 @@
     <!-- About Page -->
     <url>
         <loc>https://littlemonkssafaris.com/about.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -54,7 +54,7 @@
     <!-- Sign Up Page -->
     <url>
         <loc>https://littlemonkssafaris.com/signup.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -62,7 +62,7 @@
     <!-- Terms of Service -->
     <url>
         <loc>https://littlemonkssafaris.com/terms.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -70,7 +70,7 @@
     <!-- Privacy Policy -->
     <url>
         <loc>https://littlemonkssafaris.com/privacy.html</loc>
-        <lastmod>2024-09-01</lastmod>
+        <lastmod>2026-09-01</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
