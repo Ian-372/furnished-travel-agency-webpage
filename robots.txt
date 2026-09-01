@@ -1,0 +1,61 @@
+# Little Monks Safaris - robots.txt
+# This file tells search engines which pages to crawl and index
+
+# Allow all bots to crawl public pages
+User-agent: *
+Allow: /
+
+# Disallow crawling of admin and private pages
+Disallow: /admin.html
+Disallow: /admin-login.html
+Disallow: /dashboard.html
+Disallow: /login.html
+Disallow: /js/
+Disallow: /css/
+Disallow: /images/hero/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*ref=
+
+# Specific search engine rules
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+
+# Allow specific user agents
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# Sitemap location
+Sitemap: https://littlemonkssafaris.com/sitemap.xml
+
+# Cache settings
+Cache-control: max-age=259200
+
+# Disallow bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
