@@ -4,16 +4,16 @@ LITTLE MONKS SAFARIS
 ========================================= */
 
 :root {
-    --dark: #111714;
-    --dark-soft: #18201b;
-    --green: #506b4f;
-    --green-dark: #344b37;
-    --gold: #c5a46d;
-    --cream: #f5f1e8;
+    --dark: #050807;
+    --dark-soft: #062e1b;
+    --green: #0b5a34;
+    --green-dark: #062e1b;
+    --gold: #c9a227;
+    --cream: #f8f3e7;
     --white: #ffffff;
-    --text: #273029;
-    --muted: #747b75;
-    --border: rgba(39, 48, 41, 0.12);
+    --text: #f8f3e7;
+    --muted: #d9d9d9;
+    --border: rgba(201, 162, 39, 0.25);
 }
 
 * {
@@ -29,7 +29,7 @@ html {
 body {
     font-family: "Montserrat", sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: linear-gradient(180deg, #050807 0%, #07170d 35%, #f8f3e7 100%);
     line-height: 1.7;
 }
 
@@ -281,7 +281,7 @@ SERVICES
 
 .about-services {
     padding: 130px 6%;
-    background: var(--cream);
+    background: #07170d;
 }
 
 .section-heading {
@@ -312,14 +312,14 @@ SERVICES
 }
 
 .about-service-card {
-    background: var(--cream);
+    background: #0a0d0b;
     padding: 45px 38px;
     min-height: 330px;
     transition: .4s ease;
 }
 
 .about-service-card:hover {
-    background: white;
+    background: #102017;
     transform: translateY(-5px);
 }
 
@@ -367,7 +367,7 @@ WHY US
 .why-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: white;
+    background: var(--dark);
 }
 
 .why-image img {
@@ -381,7 +381,7 @@ WHY US
 }
 
 .why-content h2 {
-    color: var(--dark);
+    color: var(--cream);
 }
 
 .why-item {
