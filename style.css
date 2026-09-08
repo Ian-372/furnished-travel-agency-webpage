@@ -315,6 +315,38 @@ NAVBAR
 }
 
 
+.logo-image {
+
+
+    display: block;
+
+    width: 132px;
+
+    height: 64px;
+
+    object-fit: contain;
+
+
+}
+
+
+.logo-text {
+
+
+    position: absolute;
+
+    width: 1px;
+
+    height: 1px;
+
+    overflow: hidden;
+
+    clip: rect(0 0 0 0);
+
+
+}
+
+
 
 .logo span {
 
