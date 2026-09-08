@@ -3070,3 +3070,18 @@ CONTACT
         flex: 1;
     }
 }
+
+
+body {
+
+
+    margin: 0;
+
+    background: #050807;
+
+    color: var(--cream);
+
+    line-height: 1.7;
+
+
+}

@@ -29,7 +29,7 @@ html {
 body {
     font-family: "Montserrat", sans-serif;
     color: var(--text);
-    background: linear-gradient(180deg, #050807 0%, #07170d 35%, #f8f3e7 100%);
+    background: linear-gradient(180deg, #050807 0%, #07170d 35%, #050807 100%);
     line-height: 1.7;
 }
 
@@ -352,7 +352,7 @@ SERVICES
     align-items: center;
     gap: 10px;
     margin-top: 25px;
-    color: var(--green-dark);
+    color: var(--gold);
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
@@ -460,11 +460,11 @@ SAFETY
     display: grid;
     grid-template-columns: .8fr 1.2fr;
     gap: 100px;
-    background: var(--cream);
+    background: #07170d;
 }
 
 .safety-heading h2 {
-    color: var(--dark);
+    color: var(--cream);
 }
 
 .safety-content > p {
@@ -508,7 +508,7 @@ COMPANY INFORMATION
 
 .company-section {
     padding: 120px 7%;
-    background: white;
+    background: #0a0d0b;
 }
 
 .company-grid {
@@ -607,7 +607,7 @@ CTA
 }
 
 .about-cta-content a:hover {
-    background: white;
+    background: #e4c766;
 }
 
 
