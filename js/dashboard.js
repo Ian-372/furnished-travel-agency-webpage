@@ -318,7 +318,7 @@ if (logoutBtn) {
 }
 
 // ==========================
-// MPESA PAYMENT
+// PAYHERO MPESA PAYMENT
 // ==========================
 
 document.addEventListener("click", async (event) => {
@@ -329,7 +329,7 @@ document.addEventListener("click", async (event) => {
     const bookingId = event.target.dataset.id;
 
     const phone = prompt(
-        "Enter your M-Pesa phone number\nExample: 254712345678"
+        "Enter your M-Pesa phone number\nExample: 254712345678 or 0712345678"
     );
 
     if (!phone) return;
@@ -363,10 +363,10 @@ document.addEventListener("click", async (event) => {
 
         const result = await response.json();
 
-        if (response.ok) {
+        if (response.ok && (result.success !== false)) {
 
             alert(
-                "STK Push sent successfully.\nPlease check your phone."
+                result.message || "STK Push sent successfully via PayHero.\nPlease check your phone."
             );
 
         }
@@ -374,7 +374,7 @@ document.addEventListener("click", async (event) => {
         else {
 
             alert(
-                result.message || "Payment request failed."
+                result.message || result.error || "Payment request failed."
             );
 
         }
