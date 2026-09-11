@@ -182,11 +182,11 @@ function renderPayments() {
     state.bookings.filter(({ booking }) => filter === "all" || normalise(booking.payment?.status) === filter).forEach(({ booking }) => {
         const row = document.createElement("tr");
         appendCell(row, booking.fullName);
-        appendCell(row, money(booking.quotation?.amount));
+        appendCell(row, money(booking.payment?.amount || booking.quotation?.amount));
         appendCell(row, booking.payment?.status || "Pending quote");
         appendCell(row, booking.payment?.method || "-");
         appendCell(row, booking.payment?.receipt || booking.payment?.transactionId || "-");
-        appendCell(row, booking.payment?.paidAt || "-");
+        appendCell(row, booking.payment?.paidAt ? new Date(booking.payment.paidAt).toLocaleString("en-KE") : "-");
         elements.paymentsTable.appendChild(row);
     });
 }
@@ -266,7 +266,19 @@ function openBooking(id) {
     const { booking } = record;
     elements.bookingDetails.replaceChildren();
     const details = createNode("div", undefined, "booking-detail-grid");
-    [["Customer", booking.fullName], ["Email", booking.email], ["Phone", booking.phone], ["Journey", booking.destination], ["Service", booking.service], ["Travel date", booking.travelDate], ["Travellers", booking.passengers], ["Quotation", money(booking.quotation?.amount)], ["Payment", booking.payment?.status || "Pending quote"]].forEach(([label, value]) => {
+    [
+        ["Customer", booking.fullName],
+        ["Email", booking.email],
+        ["Phone", booking.phone],
+        ["Journey", booking.destination],
+        ["Service", booking.service],
+        ["Travel date", booking.travelDate],
+        ["Travellers", booking.passengers],
+        ["Quotation", money(booking.quotation?.amount)],
+        ["Payment", booking.payment?.status || "Pending quote"],
+        ["Receipt", booking.payment?.receipt || booking.payment?.transactionId || "-"],
+        ["Paid At", booking.payment?.paidAt ? new Date(booking.payment.paidAt).toLocaleString("en-KE") : "-"]
+    ].forEach(([label, value]) => {
         const item = createNode("div", undefined, "detail-item");
         item.append(createNode("span", label), createNode("strong", value || "-"));
         details.appendChild(item);
