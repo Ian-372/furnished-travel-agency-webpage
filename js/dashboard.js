@@ -352,7 +352,7 @@ document.addEventListener("click", async (event) => {
 
                     bookingId,
 
-                    amount,
+                    amount: Number(amount),
 
                     phone
 
@@ -361,7 +361,13 @@ document.addEventListener("click", async (event) => {
             }
         );
 
-        const result = await response.json();
+        let result = {};
+        try {
+            result = await response.json();
+        } catch {
+            const rawText = await response.text();
+            result = { error: rawText || "Server returned an invalid response." };
+        }
 
         if (response.ok && (result.success !== false)) {
 
@@ -374,7 +380,7 @@ document.addEventListener("click", async (event) => {
         else {
 
             alert(
-                result.message || result.error || "Payment request failed."
+                result.message || result.error || `Payment request failed (HTTP ${response.status}).`
             );
 
         }
@@ -383,7 +389,7 @@ document.addEventListener("click", async (event) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error("Payment error:", error);
 
         alert("Unable to connect to payment server.");
 
