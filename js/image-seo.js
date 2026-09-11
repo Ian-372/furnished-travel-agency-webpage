@@ -304,8 +304,37 @@ const ManualImageUpdates = {
  *    - Use srcset for different screen sizes
  *    - Use picture element for art direction
  *    - Example:
- *      <img srcset=\"image-sm.jpg 480w,
+ *      <img srcset="image-sm.jpg 480w,
  *                   image-md.jpg 768w,
- *                   image-lg.jpg 1200w\"
- *           src=\"image-md.jpg\"
- *           alt=\"descriptive text\">\n *\n * 6. CAPTIONS & CONTEXT\n *    - Use figure and figcaption for semantic HTML\n *    - Example:\n *      <figure>\n *        <img src=\"safari.jpg\" alt=\"Lion on safari\">\n *        <figcaption>A majestic lion in the Serengeti</figcaption>\n *      </figure>\n */\n\n// Auto-initialize on page load\nif (document.readyState === 'loading') {\n    document.addEventListener('DOMContentLoaded', initImageSEO);\n} else {\n    initImageSEO();\n}\n\n// Export for use in modules\nif (typeof module !== 'undefined' && module.exports) {\n    module.exports = {\n        applyAltTexts,\n        validateImageAltTexts,\n        optimizeImagesForWeb,\n        generateImageSitemapData,\n        addImageStructuredData,\n        initImageSEO,\n        ManualImageUpdates\n    };\n}\n
+ *                   image-lg.jpg 1200w"
+ *           src="image-md.jpg"
+ *           alt="descriptive text">
+ *
+ * 6. CAPTIONS & CONTEXT
+ *    - Use figure and figcaption for semantic HTML
+ *    - Example:
+ *      <figure>
+ *        <img src="safari.jpg" alt="Lion on safari">
+ *        <figcaption>A majestic lion in the Serengeti</figcaption>
+ *      </figure>
+ */
+
+// Auto-initialize on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initImageSEO);
+} else {
+    initImageSEO();
+}
+
+// Export for use in modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        applyAltTexts,
+        validateImageAltTexts,
+        optimizeImagesForWeb,
+        generateImageSitemapData,
+        addImageStructuredData,
+        initImageSEO,
+        ManualImageUpdates
+    };
+}
