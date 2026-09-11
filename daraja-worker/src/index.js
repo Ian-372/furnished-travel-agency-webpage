@@ -228,13 +228,15 @@ function getPayHeroAuth(env) {
 			: `Basic ${env.PAYHERO_BASIC_AUTH}`;
 	}
 
-	if (env.PAYHERO_API_USERNAME && (env.PAYHERO_API_PASSWORD || env.PAYHERO_ACCOUNT_ID || env.PAYHERO_API_KEY)) {
-		const secret = env.PAYHERO_API_PASSWORD || env.PAYHERO_ACCOUNT_ID || env.PAYHERO_API_KEY;
-		return `Basic ${btoa(`${env.PAYHERO_API_USERNAME}:${secret}`)}`;
+	if (env.PAYHERO_API_KEY) {
+		return env.PAYHERO_API_KEY.startsWith("Basic ")
+			? env.PAYHERO_API_KEY
+			: `Basic ${env.PAYHERO_API_KEY}`;
 	}
 
-	if (env.PAYHERO_API_KEY) {
-		return `Basic ${btoa(`${env.PAYHERO_API_KEY}:`)}`;
+	if (env.PAYHERO_API_USERNAME && (env.PAYHERO_API_PASSWORD || env.PAYHERO_ACCOUNT_ID || env.PAYHERO_API_KEY)) {
+		const secret = env.PAYHERO_API_PASSWORD || env.PAYHERO_ACCOUNT_ID;
+		return `Basic ${btoa(`${env.PAYHERO_API_USERNAME}:${secret}`)}`;
 	}
 
 	if (env.PAYHERO_ACCOUNT_ID) {
