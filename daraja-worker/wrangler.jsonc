@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "payhero-worker",
+	"name": "daraja-worker",
 	"main": "src/index.js",
 	"compatibility_date": "2026-07-30",
 	"observability": {
